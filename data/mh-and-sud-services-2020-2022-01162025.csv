@@ -1,0 +1,217 @@
+Year,Geography,Subpopulation topic,Subpopulation,Category,Count of enrollees,Denominator count of enrollees,Percentage of enrollees,Data version
+2020,National,Age group,Ages 12-18,Received MH or SUD services,"1,759,156","10,404,790",16.9,TAF Release 1
+2020,National,Age group,Ages 12-18,Received MH services,"1,728,570","10,404,790",16.6,TAF Release 1
+2020,National,Age group,Ages 12-18,Received SUD services,"111,537","10,404,790",1.1,TAF Release 1
+2020,National,Age group,Ages 19-39,Received MH or SUD services,"3,640,344","16,345,369",22.3,TAF Release 1
+2020,National,Age group,Ages 19-39,Received MH services,"2,775,277","16,345,369",17.0,TAF Release 1
+2020,National,Age group,Ages 19-39,Received SUD services,"1,646,389","16,345,369",10.1,TAF Release 1
+2020,National,Age group,Ages 40-64,Received MH or SUD services,"2,940,796","10,871,533",27.1,TAF Release 1
+2020,National,Age group,Ages 40-64,Received MH services,"2,103,045","10,871,533",19.3,TAF Release 1
+2020,National,Age group,Ages 40-64,Received SUD services,"1,559,648","10,871,533",14.3,TAF Release 1
+2020,National,Eligibility category,CHIP,Received MH or SUD services,"327,987","2,667,663",12.3,TAF Release 1
+2020,National,Eligibility category,CHIP,Received MH services,"321,251","2,667,663",12.0,TAF Release 1
+2020,National,Eligibility category,CHIP,Received SUD services,"18,987","2,667,663",0.7,TAF Release 1
+2020,National,Eligibility category,Disability,Received MH or SUD services,"1,741,286","4,051,829",43.0,TAF Release 1
+2020,National,Eligibility category,Disability,Received MH services,"1,466,485","4,051,829",36.2,TAF Release 1
+2020,National,Eligibility category,Disability,Received SUD services,"685,761","4,051,829",16.9,TAF Release 1
+2020,National,Eligibility category,Expansion adult,Received MH or SUD services,"3,048,033","14,368,098",21.2,TAF Release 1
+2020,National,Eligibility category,Expansion adult,Received MH services,"2,160,714","14,368,098",15.0,TAF Release 1
+2020,National,Eligibility category,Expansion adult,Received SUD services,"1,587,258","14,368,098",11.0,TAF Release 1
+2020,National,Eligibility category,Medicaid children,Received MH or SUD services,"1,342,253","8,154,864",16.5,TAF Release 1
+2020,National,Eligibility category,Medicaid children,Received MH services,"1,301,635","8,154,864",16.0,TAF Release 1
+2020,National,Eligibility category,Medicaid children,Received SUD services,"118,519","8,154,864",1.5,TAF Release 1
+2020,National,Eligibility category,Non-expansion adult,Received MH or SUD services,"1,678,662","7,430,803",22.6,TAF Release 1
+2020,National,Eligibility category,Non-expansion adult,Received MH services,"1,218,185","7,430,803",16.4,TAF Release 1
+2020,National,Eligibility category,Non-expansion adult,Received SUD services,"807,661","7,430,803",10.9,TAF Release 1
+2020,National,Eligibility category,Pregnancy,Received MH or SUD services,"145,027","649,314",22.3,TAF Release 1
+2020,National,Eligibility category,Pregnancy,Received MH services,"89,077","649,314",13.7,TAF Release 1
+2020,National,Eligibility category,Pregnancy,Received SUD services,"83,332","649,314",12.8,TAF Release 1
+2020,National,Eligibility category,Unknown eligibility,Received MH or SUD services,"57,048","299,121",19.1,TAF Release 1
+2020,National,Eligibility category,Unknown eligibility,Received MH services,"49,545","299,121",16.6,TAF Release 1
+2020,National,Eligibility category,Unknown eligibility,Received SUD services,"16,056","299,121",5.4,TAF Release 1
+2020,National,Primary language,All other languages,Received MH or SUD services,"20,357","200,344",10.2,TAF Release 1
+2020,National,Primary language,All other languages,Received MH services,"17,879","200,344",8.9,TAF Release 1
+2020,National,Primary language,All other languages,Received SUD services,"3,982","200,344",2.0,TAF Release 1
+2020,National,Primary language,English,Received MH or SUD services,"4,283,752","15,912,755",26.9,TAF Release 1
+2020,National,Primary language,English,Received MH services,"3,382,485","15,912,755",21.3,TAF Release 1
+2020,National,Primary language,English,Received SUD services,"1,744,946","15,912,755",11.0,TAF Release 1
+2020,National,Primary language,Spanish,Received MH or SUD services,"153,319","1,439,499",10.7,TAF Release 1
+2020,National,Primary language,Spanish,Received MH services,"140,670","1,439,499",9.8,TAF Release 1
+2020,National,Primary language,Spanish,Received SUD services,"23,672","1,439,499",1.6,TAF Release 1
+2020,National,Race and ethnicity,"American Indian and Alaska Native, non-Hispanic",Received MH or SUD services,"149,971","567,121",26.4,TAF Release 1
+2020,National,Race and ethnicity,"American Indian and Alaska Native, non-Hispanic",Received MH services,"104,512","567,121",18.4,TAF Release 1
+2020,National,Race and ethnicity,"American Indian and Alaska Native, non-Hispanic",Received SUD services,"81,804","567,121",14.4,TAF Release 1
+2020,National,Race and ethnicity,"Asian/Pacific Islander, non-Hispanic",Received MH or SUD services,"178,874","2,179,234",8.2,TAF Release 1
+2020,National,Race and ethnicity,"Asian/Pacific Islander, non-Hispanic",Received MH services,"147,374","2,179,234",6.8,TAF Release 1
+2020,National,Race and ethnicity,"Asian/Pacific Islander, non-Hispanic",Received SUD services,"49,580","2,179,234",2.3,TAF Release 1
+2020,National,Race and ethnicity,"Black, non-Hispanic",Received MH or SUD services,"1,625,512","8,142,434",20.0,TAF Release 1
+2020,National,Race and ethnicity,"Black, non-Hispanic",Received MH services,"1,254,103","8,142,434",15.4,TAF Release 1
+2020,National,Race and ethnicity,"Black, non-Hispanic",Received SUD services,"671,911","8,142,434",8.3,TAF Release 1
+2020,National,Race and ethnicity,Hispanic,Received MH or SUD services,"1,395,874","9,667,670",14.4,TAF Release 1
+2020,National,Race and ethnicity,Hispanic,Received MH services,"1,175,636","9,667,670",12.2,TAF Release 1
+2020,National,Race and ethnicity,Hispanic,Received SUD services,"410,484","9,667,670",4.2,TAF Release 1
+2020,National,Race and ethnicity,"Multiracial, non-Hispanic",Received MH or SUD services,"97,984","446,516",21.9,TAF Release 1
+2020,National,Race and ethnicity,"Multiracial, non-Hispanic",Received MH services,"80,838","446,516",18.1,TAF Release 1
+2020,National,Race and ethnicity,"Multiracial, non-Hispanic",Received SUD services,"33,776","446,516",7.6,TAF Release 1
+2020,National,Race and ethnicity,"White, non-Hispanic",Received MH or SUD services,"4,891,469","16,601,789",29.5,TAF Release 1
+2020,National,Race and ethnicity,"White, non-Hispanic",Received MH services,"3,843,917","16,601,789",23.2,TAF Release 1
+2020,National,Race and ethnicity,"White, non-Hispanic",Received SUD services,"2,069,857","16,601,789",12.5,TAF Release 1
+2020,National,Sex or gender identity,Female,Received MH or SUD services,"4,973,239","21,213,079",23.4,TAF Release 1
+2020,National,Sex or gender identity,Female,Received MH services,"4,097,749","21,213,079",19.3,TAF Release 1
+2020,National,Sex or gender identity,Female,Received SUD services,"1,775,186","21,213,079",8.4,TAF Release 1
+2020,National,Sex or gender identity,Male,Received MH or SUD services,"3,367,038","16,408,423",20.5,TAF Release 1
+2020,National,Sex or gender identity,Male,Received MH services,"2,509,127","16,408,423",15.3,TAF Release 1
+2020,National,Sex or gender identity,Male,Received SUD services,"1,542,383","16,408,423",9.4,TAF Release 1
+2020,National,Total enrollees,Medicaid and CHIP enrollees,Received MH or SUD services,"8,340,296","37,621,692",22.2,TAF Release 1
+2020,National,Total enrollees,Medicaid and CHIP enrollees,Received MH services,"6,606,892","37,621,692",17.6,TAF Release 1
+2020,National,Total enrollees,Medicaid and CHIP enrollees,Received SUD services,"3,317,574","37,621,692",8.8,TAF Release 1
+2020,National,Urban or rural residence,Rural,Received MH or SUD services,"1,700,000","6,329,827",26.9,TAF Release 1
+2020,National,Urban or rural residence,Rural,Received MH services,"1,332,764","6,329,827",21.1,TAF Release 1
+2020,National,Urban or rural residence,Rural,Received SUD services,"687,431","6,329,827",10.9,TAF Release 1
+2020,National,Urban or rural residence,Urban,Received MH or SUD services,"6,557,247","30,946,861",21.2,TAF Release 1
+2020,National,Urban or rural residence,Urban,Received MH services,"5,206,765","30,946,861",16.8,TAF Release 1
+2020,National,Urban or rural residence,Urban,Received SUD services,"2,596,766","30,946,861",8.4,TAF Release 1
+2021,National,Age group,Ages 12-18,Received MH or SUD services,"1,958,836","11,702,388",16.7,TAF Release 1
+2021,National,Age group,Ages 12-18,Received MH services,"1,928,127","11,702,388",16.5,TAF Release 1
+2021,National,Age group,Ages 12-18,Received SUD services,"116,546","11,702,388",1.0,TAF Release 1
+2021,National,Age group,Ages 19-39,Received MH or SUD services,"4,373,179","21,135,645",20.7,TAF Release 1
+2021,National,Age group,Ages 19-39,Received MH services,"3,441,259","21,135,645",16.3,TAF Release 1
+2021,National,Age group,Ages 19-39,Received SUD services,"1,799,637","21,135,645",8.5,TAF Release 1
+2021,National,Age group,Ages 40-64,Received MH or SUD services,"3,261,253","13,269,617",24.6,TAF Release 1
+2021,National,Age group,Ages 40-64,Received MH services,"2,350,456","13,269,617",17.7,TAF Release 1
+2021,National,Age group,Ages 40-64,Received SUD services,"1,676,453","13,269,617",12.6,TAF Release 1
+2021,National,Eligibility category,CHIP,Received MH or SUD services,"421,872","3,254,770",13.0,TAF Release 1
+2021,National,Eligibility category,CHIP,Received MH services,"413,829","3,254,770",12.7,TAF Release 1
+2021,National,Eligibility category,CHIP,Received SUD services,"23,524","3,254,770",0.7,TAF Release 1
+2021,National,Eligibility category,Disability,Received MH or SUD services,"1,717,294","4,105,864",41.8,TAF Release 1
+2021,National,Eligibility category,Disability,Received MH services,"1,460,617","4,105,864",35.6,TAF Release 1
+2021,National,Eligibility category,Disability,Received SUD services,"646,813","4,105,864",15.8,TAF Release 1
+2021,National,Eligibility category,Expansion adult,Received MH or SUD services,"3,684,344","18,125,156",20.3,TAF Release 1
+2021,National,Eligibility category,Expansion adult,Received MH services,"2,688,695","18,125,156",14.8,TAF Release 1
+2021,National,Eligibility category,Expansion adult,Received SUD services,"1,792,999","18,125,156",9.9,TAF Release 1
+2021,National,Eligibility category,Medicaid children,Received MH or SUD services,"1,524,437","9,569,812",15.9,TAF Release 1
+2021,National,Eligibility category,Medicaid children,Received MH services,"1,482,437","9,569,812",15.5,TAF Release 1
+2021,National,Eligibility category,Medicaid children,Received SUD services,"127,329","9,569,812",1.3,TAF Release 1
+2021,National,Eligibility category,Non-expansion adult,Received MH or SUD services,"1,991,861","9,611,582",20.7,TAF Release 1
+2021,National,Eligibility category,Non-expansion adult,Received MH services,"1,490,571","9,611,582",15.5,TAF Release 1
+2021,National,Eligibility category,Non-expansion adult,Received SUD services,"890,010","9,611,582",9.3,TAF Release 1
+2021,National,Eligibility category,Pregnancy,Received MH or SUD services,"200,713","1,079,840",18.6,TAF Release 1
+2021,National,Eligibility category,Pregnancy,Received MH services,"137,581","1,079,840",12.7,TAF Release 1
+2021,National,Eligibility category,Pregnancy,Received SUD services,"97,971","1,079,840",9.1,TAF Release 1
+2021,National,Eligibility category,Unknown eligibility,Received MH or SUD services,"52,747","360,626",14.6,TAF Release 1
+2021,National,Eligibility category,Unknown eligibility,Received MH services,"46,112","360,626",12.8,TAF Release 1
+2021,National,Eligibility category,Unknown eligibility,Received SUD services,"13,990","360,626",3.9,TAF Release 1
+2021,National,Primary language,All other languages,Received MH or SUD services,"25,014","263,749",9.5,TAF Release 1
+2021,National,Primary language,All other languages,Received MH services,"22,047","263,749",8.4,TAF Release 1
+2021,National,Primary language,All other languages,Received SUD services,"4,625","263,749",1.8,TAF Release 1
+2021,National,Primary language,English,Received MH or SUD services,"5,303,971","21,125,638",25.1,TAF Release 1
+2021,National,Primary language,English,Received MH services,"4,258,371","21,125,638",20.2,TAF Release 1
+2021,National,Primary language,English,Received SUD services,"2,035,094","21,125,638",9.6,TAF Release 1
+2021,National,Primary language,Spanish,Received MH or SUD services,"175,309","1,873,263",9.4,TAF Release 1
+2021,National,Primary language,Spanish,Received MH services,"159,759","1,873,263",8.5,TAF Release 1
+2021,National,Primary language,Spanish,Received SUD services,"27,128","1,873,263",1.4,TAF Release 1
+2021,National,Race and ethnicity,"American Indian and Alaska Native, non-Hispanic",Received MH or SUD services,"169,142","656,602",25.8,TAF Release 1
+2021,National,Race and ethnicity,"American Indian and Alaska Native, non-Hispanic",Received MH services,"120,971","656,602",18.4,TAF Release 1
+2021,National,Race and ethnicity,"American Indian and Alaska Native, non-Hispanic",Received SUD services,"89,082","656,602",13.6,TAF Release 1
+2021,National,Race and ethnicity,"Asian/Pacific Islander, non-Hispanic",Received MH or SUD services,"217,316","2,670,268",8.1,TAF Release 1
+2021,National,Race and ethnicity,"Asian/Pacific Islander, non-Hispanic",Received MH services,"182,631","2,670,268",6.8,TAF Release 1
+2021,National,Race and ethnicity,"Asian/Pacific Islander, non-Hispanic",Received SUD services,"55,453","2,670,268",2.1,TAF Release 1
+2021,National,Race and ethnicity,"Black, non-Hispanic",Received MH or SUD services,"1,811,685","9,895,651",18.3,TAF Release 1
+2021,National,Race and ethnicity,"Black, non-Hispanic",Received MH services,"1,418,788","9,895,651",14.3,TAF Release 1
+2021,National,Race and ethnicity,"Black, non-Hispanic",Received SUD services,"712,503","9,895,651",7.2,TAF Release 1
+2021,National,Race and ethnicity,Hispanic,Received MH or SUD services,"1,672,675","12,232,262",13.7,TAF Release 1
+2021,National,Race and ethnicity,Hispanic,Received MH services,"1,415,032","12,232,262",11.6,TAF Release 1
+2021,National,Race and ethnicity,Hispanic,Received SUD services,"475,316","12,232,262",3.9,TAF Release 1
+2021,National,Race and ethnicity,"Multiracial, non-Hispanic",Received MH or SUD services,"129,029","580,106",22.2,TAF Release 1
+2021,National,Race and ethnicity,"Multiracial, non-Hispanic",Received MH services,"108,403","580,106",18.7,TAF Release 1
+2021,National,Race and ethnicity,"Multiracial, non-Hispanic",Received SUD services,"41,422","580,106",7.1,TAF Release 1
+2021,National,Race and ethnicity,"White, non-Hispanic",Received MH or SUD services,"5,592,679","20,052,963",27.9,TAF Release 1
+2021,National,Race and ethnicity,"White, non-Hispanic",Received MH services,"4,473,357","20,052,963",22.3,TAF Release 1
+2021,National,Race and ethnicity,"White, non-Hispanic",Received SUD services,"2,218,708","20,052,963",11.1,TAF Release 1
+2021,National,Sex or gender identity,Female,Received MH or SUD services,"5,804,235","25,849,388",22.5,TAF Release 1
+2021,National,Sex or gender identity,Female,Received MH services,"4,889,612","25,849,388",18.9,TAF Release 1
+2021,National,Sex or gender identity,Female,Received SUD services,"1,879,427","25,849,388",7.3,TAF Release 1
+2021,National,Sex or gender identity,Male,Received MH or SUD services,"3,789,006","20,258,028",18.7,TAF Release 1
+2021,National,Sex or gender identity,Male,Received MH services,"2,830,207","20,258,028",14.0,TAF Release 1
+2021,National,Sex or gender identity,Male,Received SUD services,"1,713,204","20,258,028",8.5,TAF Release 1
+2021,National,Total enrollees,Medicaid and CHIP enrollees,Received MH or SUD services,"9,593,268","46,107,650",20.8,TAF Release 1
+2021,National,Total enrollees,Medicaid and CHIP enrollees,Received MH services,"7,719,842","46,107,650",16.7,TAF Release 1
+2021,National,Total enrollees,Medicaid and CHIP enrollees,Received SUD services,"3,592,636","46,107,650",7.8,TAF Release 1
+2021,National,Urban or rural residence,Rural,Received MH or SUD services,"1,938,653","7,538,481",25.7,TAF Release 1
+2021,National,Urban or rural residence,Rural,Received MH services,"1,548,516","7,538,481",20.5,TAF Release 1
+2021,National,Urban or rural residence,Rural,Received SUD services,"737,692","7,538,481",9.8,TAF Release 1
+2021,National,Urban or rural residence,Urban,Received MH or SUD services,"7,567,888","38,182,307",19.8,TAF Release 1
+2021,National,Urban or rural residence,Urban,Received MH services,"6,099,976","38,182,307",16.0,TAF Release 1
+2021,National,Urban or rural residence,Urban,Received SUD services,"2,821,950","38,182,307",7.4,TAF Release 1
+2022,National,Age group,Ages 12-18,Received MH or SUD services,"2,062,891","12,466,676",16.5,TAF Release 1
+2022,National,Age group,Ages 12-18,Received MH services,"2,025,989","12,466,676",16.3,TAF Release 1
+2022,National,Age group,Ages 12-18,Received SUD services,"132,708","12,466,676",1.1,TAF Release 1
+2022,National,Age group,Ages 19-39,Received MH or SUD services,"4,700,055","24,276,795",19.4,TAF Release 1
+2022,National,Age group,Ages 19-39,Received MH services,"3,744,568","24,276,795",15.4,TAF Release 1
+2022,National,Age group,Ages 19-39,Received SUD services,"1,837,456","24,276,795",7.6,TAF Release 1
+2022,National,Age group,Ages 40-64,Received MH or SUD services,"3,451,032","14,750,677",23.4,TAF Release 1
+2022,National,Age group,Ages 40-64,Received MH services,"2,464,790","14,750,677",16.7,TAF Release 1
+2022,National,Age group,Ages 40-64,Received SUD services,"1,790,573","14,750,677",12.1,TAF Release 1
+2022,National,Eligibility category,CHIP,Received MH or SUD services,"423,449","3,445,734",12.3,TAF Release 1
+2022,National,Eligibility category,CHIP,Received MH services,"413,305","3,445,734",12.0,TAF Release 1
+2022,National,Eligibility category,CHIP,Received SUD services,"27,154","3,445,734",0.8,TAF Release 1
+2022,National,Eligibility category,Disability,Received MH or SUD services,"1,692,027","4,134,942",40.9,TAF Release 1
+2022,National,Eligibility category,Disability,Received MH services,"1,437,583","4,134,942",34.8,TAF Release 1
+2022,National,Eligibility category,Disability,Received SUD services,"633,605","4,134,942",15.3,TAF Release 1
+2022,National,Eligibility category,Expansion adult,Received MH or SUD services,"4,151,988","21,190,643",19.6,TAF Release 1
+2022,National,Eligibility category,Expansion adult,Received MH services,"3,044,581","21,190,643",14.4,TAF Release 1
+2022,National,Eligibility category,Expansion adult,Received SUD services,"1,983,171","21,190,643",9.4,TAF Release 1
+2022,National,Eligibility category,Medicaid children,Received MH or SUD services,"1,644,661","10,448,177",15.7,TAF Release 1
+2022,National,Eligibility category,Medicaid children,Received MH services,"1,598,735","10,448,177",15.3,TAF Release 1
+2022,National,Eligibility category,Medicaid children,Received SUD services,"139,295","10,448,177",1.3,TAF Release 1
+2022,National,Eligibility category,Non-expansion adult,Received MH or SUD services,"1,960,030","10,149,993",19.3,TAF Release 1
+2022,National,Eligibility category,Non-expansion adult,Received MH services,"1,484,586","10,149,993",14.6,TAF Release 1
+2022,National,Eligibility category,Non-expansion adult,Received SUD services,"837,738","10,149,993",8.3,TAF Release 1
+2022,National,Eligibility category,Pregnancy,Received MH or SUD services,"257,814","1,454,163",17.7,TAF Release 1
+2022,National,Eligibility category,Pregnancy,Received MH services,"182,904","1,454,163",12.6,TAF Release 1
+2022,National,Eligibility category,Pregnancy,Received SUD services,"118,455","1,454,163",8.1,TAF Release 1
+2022,National,Eligibility category,Unknown eligibility,Received MH or SUD services,"84,009","670,496",12.5,TAF Release 1
+2022,National,Eligibility category,Unknown eligibility,Received MH services,"73,653","670,496",11.0,TAF Release 1
+2022,National,Eligibility category,Unknown eligibility,Received SUD services,"21,319","670,496",3.2,TAF Release 1
+2022,National,Primary language,All other languages,Received MH or SUD services,"27,718","310,017",8.9,TAF Release 1
+2022,National,Primary language,All other languages,Received MH services,"24,408","310,017",7.9,TAF Release 1
+2022,National,Primary language,All other languages,Received SUD services,"5,176","310,017",1.7,TAF Release 1
+2022,National,Primary language,English,Received MH or SUD services,"6,562,636","27,508,870",23.9,TAF Release 1
+2022,National,Primary language,English,Received MH services,"5,277,229","27,508,870",19.2,TAF Release 1
+2022,National,Primary language,English,Received SUD services,"2,473,860","27,508,870",9.0,TAF Release 1
+2022,National,Primary language,Spanish,Received MH or SUD services,"175,028","2,162,846",8.1,TAF Release 1
+2022,National,Primary language,Spanish,Received MH services,"157,204","2,162,846",7.3,TAF Release 1
+2022,National,Primary language,Spanish,Received SUD services,"28,950","2,162,846",1.3,TAF Release 1
+2022,National,Race and ethnicity,"American Indian and Alaska Native, non-Hispanic",Received MH or SUD services,"181,492","733,691",24.7,TAF Release 1
+2022,National,Race and ethnicity,"American Indian and Alaska Native, non-Hispanic",Received MH services,"130,205","733,691",17.7,TAF Release 1
+2022,National,Race and ethnicity,"American Indian and Alaska Native, non-Hispanic",Received SUD services,"94,208","733,691",12.8,TAF Release 1
+2022,National,Race and ethnicity,"Asian/Pacific Islander, non-Hispanic",Received MH or SUD services,"228,975","2,939,565",7.8,TAF Release 1
+2022,National,Race and ethnicity,"Asian/Pacific Islander, non-Hispanic",Received MH services,"192,779","2,939,565",6.6,TAF Release 1
+2022,National,Race and ethnicity,"Asian/Pacific Islander, non-Hispanic",Received SUD services,"57,280","2,939,565",1.9,TAF Release 1
+2022,National,Race and ethnicity,"Black, non-Hispanic",Received MH or SUD services,"1,899,688","10,939,131",17.4,TAF Release 1
+2022,National,Race and ethnicity,"Black, non-Hispanic",Received MH services,"1,496,164","10,939,131",13.7,TAF Release 1
+2022,National,Race and ethnicity,"Black, non-Hispanic",Received SUD services,"730,138","10,939,131",6.7,TAF Release 1
+2022,National,Race and ethnicity,Hispanic,Received MH or SUD services,"1,779,952","13,815,913",12.9,TAF Release 1
+2022,National,Race and ethnicity,Hispanic,Received MH services,"1,499,859","13,815,913",10.9,TAF Release 1
+2022,National,Race and ethnicity,Hispanic,Received SUD services,"503,843","13,815,913",3.6,TAF Release 1
+2022,National,Race and ethnicity,"Multiracial, non-Hispanic",Received MH or SUD services,"184,700","832,262",22.2,TAF Release 1
+2022,National,Race and ethnicity,"Multiracial, non-Hispanic",Received MH services,"155,961","832,262",18.7,TAF Release 1
+2022,National,Race and ethnicity,"Multiracial, non-Hispanic",Received SUD services,"58,738","832,262",7.1,TAF Release 1
+2022,National,Race and ethnicity,"White, non-Hispanic",Received MH or SUD services,"5,938,296","22,212,759",26.7,TAF Release 1
+2022,National,Race and ethnicity,"White, non-Hispanic",Received MH services,"4,759,580","22,212,759",21.4,TAF Release 1
+2022,National,Race and ethnicity,"White, non-Hispanic",Received SUD services,"2,316,378","22,212,759",10.4,TAF Release 1
+2022,National,Sex or gender identity,Female,Received MH or SUD services,"6,204,674","28,763,317",21.6,TAF Release 1
+2022,National,Sex or gender identity,Female,Received MH services,"5,244,553","28,763,317",18.2,TAF Release 1
+2022,National,Sex or gender identity,Female,Received SUD services,"1,958,404","28,763,317",6.8,TAF Release 1
+2022,National,Sex or gender identity,Male,Received MH or SUD services,"4,009,272","22,730,541",17.6,TAF Release 1
+2022,National,Sex or gender identity,Male,Received MH services,"2,990,765","22,730,541",13.2,TAF Release 1
+2022,National,Sex or gender identity,Male,Received SUD services,"1,802,326","22,730,541",7.9,TAF Release 1
+2022,National,Total enrollees,Medicaid and CHIP enrollees,Received MH or SUD services,"10,213,978","51,494,148",19.8,TAF Release 1
+2022,National,Total enrollees,Medicaid and CHIP enrollees,Received MH services,"8,235,347","51,494,148",16.0,TAF Release 1
+2022,National,Total enrollees,Medicaid and CHIP enrollees,Received SUD services,"3,760,737","51,494,148",7.3,TAF Release 1
+2022,National,Urban or rural residence,Rural,Received MH or SUD services,"2,109,628","8,457,900",24.9,TAF Release 1
+2022,National,Urban or rural residence,Rural,Received MH services,"1,690,395","8,457,900",20.0,TAF Release 1
+2022,National,Urban or rural residence,Rural,Received SUD services,"788,719","8,457,900",9.3,TAF Release 1
+2022,National,Urban or rural residence,Urban,Received MH or SUD services,"8,019,390","42,610,269",18.8,TAF Release 1
+2022,National,Urban or rural residence,Urban,Received MH services,"6,475,090","42,610,269",15.2,TAF Release 1
+2022,National,Urban or rural residence,Urban,Received SUD services,"2,939,679","42,610,269",6.9,TAF Release 1
