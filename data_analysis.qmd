@@ -1,0 +1,60 @@
+---
+title: "data_analysis"
+author: "Ethan McBride"
+format: html
+---
+
+## Loading necessary packages and data
+
+```{r}
+library(tidyverse)
+
+appp_data <- read_csv("data/APPP_dataset.csv")
+```
+
+## Preliminary models
+
+```{r}
+
+model.lm <- lm(rate_of_pregnant_women_with_oud_diagnosis ~ 
+                 met_nonmet2023 + pct_black + 
+                 unemployment_rate_2019 + 
+                 median_household_income_2022 + 
+                 pct_prenatal_care_first_trimester + 
+                 fertility_rate + pct_fair_poor_health, 
+               data = appp_data)
+summary(model.lm)
+
+model2.lm <- lm(rate_of_pregnant_women_with_oud_diagnosis ~ 
+                  rural_urban_continuum_code_2023 +
+                  pct_black + pct_hispanic + 
+                  unemployment_rate_2022 + 
+                  median_household_income_2022 +
+                  pct_prenatal_care_first_trimester +
+                  pct_low_birth_weight +
+                  pct_cesarean_section +
+                  fertility_rate + 
+                  pct_fair_poor_health,
+                data = appp_data)
+summary(model2.lm)
+
+model3.lm <- lm(rate_of_pregnant_women_with_oud_diagnosis ~ 
+            rural_urban_continuum_code_2023 * pct_black +
+            pct_hispanic + 
+            unemployment_rate_2022 + 
+            median_household_income_2022 +
+            pct_prenatal_care_first_trimester +
+            pct_low_birth_weight +
+            fertility_rate + 
+            pct_fair_poor_health, 
+            data = appp_data)
+summary(model3.lm)
+```
+
+```{r}
+
+appp_data |>
+  ggplot(aes(x = pct_black, y = rate_of_pregnant_women_with_oud_diagnosis)) +
+  geom_point() +
+  geom_smooth(method = "lm")
+```
