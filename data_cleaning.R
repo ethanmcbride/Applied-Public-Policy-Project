@@ -238,6 +238,7 @@ pa_stats_cleaned <- pa_stats |>
       measure == "Percent preterm births" ~ "pct_preterm_births",
       measure == "General fertility rate - ages 15 to 44" ~ "fertility_rate",
       measure == "Percent fair or poor general health" ~ "pct_fair_poor_health",
+      measure == "Birth rate - ages 15 to 19" ~ "teen_fertility_rate",
       TRUE ~ measure
     )
   ) |>
