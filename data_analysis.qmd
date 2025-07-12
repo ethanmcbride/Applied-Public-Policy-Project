@@ -8,15 +8,13 @@ format: html
 
 ```{r}
 library(tidyverse)
+library(broom)
 
 appp_data <- read_csv("data/APPP_dataset.csv")
-```
 
-```{r}
 appp_data <- appp_data |>
   arrange(total_population) |>
   mutate(
-    county_name = fct_reorder(county_name, total_population),
     pop_category = case_when(
       total_population > 500000 ~ "Large (500K+)",
       total_population > 100000 ~ "Medium (100K-500K)", 
@@ -24,7 +22,13 @@ appp_data <- appp_data |>
       TRUE ~ "Very Small (<50K)"
     )
   )
+```
+
+## EDA - focused on access to care
+
+```{r}
 appp_data |>
+  mutate(county_name = fct_reorder(county_name, total_population)) |>
   ggplot(aes(x = total_population, y = county_name, fill = pop_category)) + 
   geom_col(alpha = 0.8) +
   scale_x_continuous() +
@@ -41,12 +45,145 @@ appp_data |>
     plot.title = element_text(size = 14, face = "bold")
   )
 
+bottom_20_counties <- appp_data |>
+  arrange(pct_prenatal_care_first_trimester) |>
+  select(county_name, pct_prenatal_care_first_trimester) |>
+  slice_head(n = 20)
+
+top_20_counties <- appp_data |>
+  arrange(desc(pct_prenatal_care_first_trimester)) |>
+  select(county_name, pct_prenatal_care_first_trimester) |>
+  slice_head(n = 20)
+
+top_20_counties |>
+  mutate(county_name = fct_reorder(county_name, pct_prenatal_care_first_trimester)) |>
+  ggplot(aes(x = pct_prenatal_care_first_trimester, y = county_name)) + 
+  geom_col(alpha = 0.8) +
+  scale_x_continuous() +
+  labs(
+    title = "Rates of Top 20 Counties in Pennsylvania for \nReceiving Prenatal Care in First Semester of Pregnancy",
+    subtitle = "Data from PA Department of Health",
+    x = "Rate (%)",
+    y = "County"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.y = element_text(size = 8),
+    plot.title = element_text(size = 10, face = "bold")
+  )
+
+bottom_20_counties |>
+  mutate(county_name = fct_reorder(county_name, pct_prenatal_care_first_trimester)) |>
+  ggplot(aes(x = pct_prenatal_care_first_trimester, y = county_name)) +
+  geom_col(alpha = 0.6) +
+  scale_x_continuous() +
+  labs(
+    title = "Rates of Bottom 20 Counties in Pennsylvania for \nReceiving Prenatal Care in First Semester of Pregnancy",
+    subtitle = "Data from PA Department of Health",
+    x = "Rate (%)",
+    y = "County",
+  ) +
+    theme_minimal() +
+  theme(
+    axis.text.y = element_text(size = 8),
+    plot.title = element_text(size = 10, face = "bold")
+  )
+```
+
+## EDA - ANOVA?
+
+```{r}
+anova_data <- appp_data |>
+  filter(!is.na(rate_of_pregnant_women_with_oud_diagnosis)) |>
+  mutate(
+    county_group = case_when(
+      county_name == "Allegheny" ~ "Allegheny County",
+      pop_category == "Large (500K+)" & county_name != "Allegheny" ~ "Other Large Counties",
+      pop_category == "Medium (100K-500K)" ~ "Medium Counties",
+      pop_category %in% c("Small (50K-100K)", "Very Small (<50K)") ~ "Small Counties",
+      TRUE ~ "Other"
+    )
+  ) |>
+  filter(county_group != "Other") |>
+  select(
+    county_name, county_group,
+    ### OUD rates ###
+    oud_rate = rate_of_pregnant_women_with_oud_diagnosis,
+    ### SES ###
+    poverty_rate, unemployment_rate_2019, median_household_income_2022,
+    ### Health factors ###
+    pct_fair_poor_health, pct_prenatal_care_first_trimester, 
+    fertility_rate, pct_low_birth_weight, pct_cesarean_section,
+    ### Demographics ###
+    pct_black, pct_hispanic, pct_asian, pct_white,
+    ### Geographical data ###
+    rural_urban_continuum_code_2023, metro_2023,
+    ### Total population
+    total_population
+  )
+
+variables_for_test <- c(
+  "oud_rate", "poverty_rate", "unemployment_rate_2019", 
+  "median_household_income_2022", "pct_fair_poor_health", 
+  "pct_prenatal_care_first_trimester", "fertility_rate", 
+  "pct_low_birth_weight", "pct_cesarean_section", 
+  "pct_black", "pct_hispanic", "pct_asian", "pct_white"
+)
+
+### Creating function for ANOVA tests ###
+anova_test <- function(data, variable) {
+  clean_data <- data |>
+    filter(!is.na(.data[[variable]]))
+  
+  if (nrow(clean_data) < 4) {
+    return(list(anova_result = NULL, tukey_result = NULL,
+                message = paste("Not enough data for ANOVA on", variable)))
+  }
+  ### ANOVA test ###
+  formula <- as.formula(paste(variable, "~ county_group"))
+  aov_model <- aov(formula, data = clean_data)
+  anova_result <- broom::tidy(aov_model)
+  
+  ### Extract p-value ###
+  p_val <- anova_result$p.value[1]
+  
+  ### HSD / Tukey's ###
+  tukey_result <- NULL
+  tukey_tidy <- NULL
+  if(!is.na(p_val) && p_val< 0.05) {
+    tukey_result <- TukeyHSD(aov_model)
+    tukey_tidy <- broom::tidy(tukey_result)
+  }
+  
+  return(list(
+    anova_result = anova_result,
+    tukey_result = tukey_tidy,
+    model = aov_model,
+    data = clean_data,
+    variable = variable,
+    p_value = p_val
+  ))
+}
+
+anova_results <- lapply(variables_for_test, function(var) {
+  anova_test(anova_data, var)
+})
+
+names(anova_results) <- variables_for_test
+```
+
+
+## Summary statistics
+
+```{r}
 appp_data |>
   group_by(pop_category) |>
   summarize(mean_pov_rate = round(mean(poverty_rate, na.rm = T), 2),
             mean_oud_rate = round(mean(rate_of_pregnant_women_with_oud_diagnosis, na.rm = T), 2),
             mean_unemployment_rate = round(mean(unemployment_rate_2019, na.rm = T), 2),
-            mean_pct_fair_poor_health = round(mean(pct_fair_poor_health, na.rm = T), 2))
+            mean_pct_fair_poor_health = round(mean(pct_fair_poor_health, na.rm = T), 2),
+            mean_fertility_rate = round(mean(fertility_rate, na.rm = T), 2),
+            mean_pct_prenatal_care = round(mean(pct_prenatal_care_first_trimester), 2))
 ```
 
 ## Preliminary models
