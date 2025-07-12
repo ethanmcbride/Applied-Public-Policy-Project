@@ -57,15 +57,25 @@ census_data_cleaned <- census_data_PA |>
          census_date = date)
 
 ### Data from the US Department of Agriculture ###
-poverty_data <- read_xlsx("data/PovertyAreaMeasures2023.xlsx", sheet = "COUNTY PUBLIC DATA")
+# poverty_data <- read_xlsx("data/PovertyAreaMeasures2023.xlsx", sheet = "COUNTY PUBLIC DATA")
 
-poverty_data_cleaned <- poverty_data |>
+more_poverty_data <- read_csv("data/HDPulse_data_export.csv", skip = 4)
+
+more_poverty_data_cleaned <- more_poverty_data |>
   clean_names() |>
-  filter(stusab == "PA") |>
-  mutate(county_name = str_remove(county_name, " County, Pennsylvania"),
-         county_name = str_trim(county_name)) |>
-  select(-c(stusab, fips, geo_id_ct)) |>
-  select(county_name, everything())
+  rename(county_name = county,
+         poverty_rate = value_percent) |>
+  filter(str_detect(county_name, "County")) |>
+  mutate(county_name = str_remove(county_name, " County"),
+         county_name = str_trim(county_name))
+
+# poverty_data_cleaned <- poverty_data |>
+#   clean_names() |>
+#   filter(stusab == "PA") |>
+#   mutate(county_name = str_remove(county_name, " County, Pennsylvania"),
+#          county_name = str_trim(county_name)) |>
+#   select(-c(stusab, fips, geo_id_ct)) |>
+#   select(county_name, everything())
 
 ### Medicaid data ###
 medicaid_data <- read_csv("data/Rate_of_Women_on_Medical_Assistance__MA__Diagnosed_with_Opioid_Use_Disorder__OUD__during_Pregnancy_CY_2016-Current_Statewide_Department_of_Human_Services__DHS__20250624.csv")
@@ -86,7 +96,7 @@ joint_data <- census_data_cleaned |>
             by = "county_name")
 
 joint_data <- joint_data |>
-  left_join(poverty_data_cleaned,
+  left_join(more_poverty_data_cleaned,
             by = "county_name")
 
 joint_data_with_names <- joint_data |>
@@ -243,5 +253,4 @@ joint_data_with_names <- joint_data_with_names |>
 
 # Write new file for data analysis #
 write_csv(joint_data_with_names, "data/APPP_dataset.csv")
-
 
