@@ -28,66 +28,229 @@ appp_data <- appp_data |>
 
 ```{r}
 appp_data |>
-  mutate(county_name = fct_reorder(county_name, total_population)) |>
-  ggplot(aes(x = total_population, y = county_name, fill = pop_category)) + 
-  geom_col(alpha = 0.8) +
-  scale_x_continuous() +
-  scale_fill_viridis_d(name = "County Size") +
+  filter(!is.na(total_population)) |>
+  arrange(total_population) |>
+  mutate(county_name = fct_inorder(county_name)) |>
+  ggplot(aes(x = total_population, y = county_name)) +
+  geom_segment(aes(x = 0, xend = total_population, 
+                   y = county_name, yend = county_name), 
+               color = "gray70", size = 0.5) +
+  geom_point(color = "steelblue", size = 2.5, alpha = 0.8) +
+  scale_x_continuous(expand = c(0.02, 0), limits = c(0, NA)) +
   labs(
-    title = "All Pennsylvania Counties by Population",
-    subtitle = "Colored by population category",
-    x = "Total Population",
-    y = "County"
+    title = "Total Population of All Pennsylvania Counties",
+    x = NULL,
+    y = NULL,
+    caption = "Source: US Census Bureau"
   ) +
   theme_minimal() +
   theme(
-    axis.text.y = element_text(size = 8),  # Smaller text for many counties
-    plot.title = element_text(size = 14, face = "bold")
+    axis.text.y = element_text(size = 6.5, color = "black"),
+    axis.text.x = element_text(size = 8),
+    plot.title = element_text(size = 12, face = "bold", margin = margin(b = 5)),
+    plot.subtitle = element_text(size = 10, color = "gray40", margin = margin(b = 15)),
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.grid.major.x = element_line(color = "gray90", linewidth = 0.5),
+    plot.margin = margin(10, 10, 10, 10)
   )
 
-bottom_20_counties <- appp_data |>
+appp_data |>
+  filter(!is.na(rate_of_pregnant_women_with_oud_diagnosis)) |>
+  arrange(rate_of_pregnant_women_with_oud_diagnosis) |>
+  mutate(county_name = fct_inorder(county_name)) |>
+  ggplot(aes(x = rate_of_pregnant_women_with_oud_diagnosis, y = county_name)) +
+  geom_segment(aes(x = 0, xend = rate_of_pregnant_women_with_oud_diagnosis, 
+                   y = county_name, yend = county_name), 
+               color = "gray70", size = 0.5) +
+  geom_point(color = "steelblue", size = 2.5, alpha = 0.8) +
+  scale_x_continuous(expand = c(0.02, 0), limits = c(0, NA)) +
+  labs(
+    title = "Opioid Use Disorder Rates Among Pregnant Women",
+    subtitle = "Pennsylvania Counties | Rate per 1,000 pregnant women",
+    x = "Rate per 1,000 pregnant women",
+    y = NULL,
+    caption = "Source: Pennsylvania Department of Health"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.y = element_text(size = 6.5, color = "black"),
+    axis.text.x = element_text(size = 8),
+    plot.title = element_text(size = 12, face = "bold", margin = margin(b = 5)),
+    plot.subtitle = element_text(size = 10, color = "gray40", margin = margin(b = 15)),
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.grid.major.x = element_line(color = "gray90", linewidth = 0.5),
+    plot.margin = margin(10, 10, 10, 10)
+  )
+
+appp_data |>
+  filter(!is.na(poverty_rate)) |>
+  arrange(poverty_rate) |>
+  mutate(county_name = fct_inorder(county_name)) |>
+  ggplot(aes(x = poverty_rate, y = county_name)) +
+  geom_segment(aes(x = 0, xend = poverty_rate, 
+                   y = county_name, yend = county_name), 
+               color = "gray70", size = 0.5) +
+  geom_point(color = "#e74c3c", size = 2.5, alpha = 0.8) +
+  scale_x_continuous(expand = c(0.02, 0), limits = c(0, NA)) +
+  labs(
+    title = "Poverty Rates Across Pennsylvania Counties",
+    subtitle = "Percentage of families below poverty line",
+    x = "Poverty Rate (%)",
+    y = NULL,
+    caption = "Source: US Department of Agriculture Economic Research Service (ERS)"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.y = element_text(size = 6.5, color = "black"),
+    axis.text.x = element_text(size = 8),
+    plot.title = element_text(size = 12, face = "bold", margin = margin(b = 5)),
+    plot.subtitle = element_text(size = 10, color = "gray40", margin = margin(b = 15)),
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.grid.major.x = element_line(color = "gray90", linewidth = 0.5),
+    plot.margin = margin(10, 10, 10, 10)
+  )
+
+appp_data |>
+  filter(!is.na(unemployment_rate_2022)) |>
+  arrange(unemployment_rate_2022) |>
+  mutate(county_name = fct_inorder(county_name)) |>
+  ggplot(aes(x = unemployment_rate_2022, y = county_name)) +
+  geom_segment(aes(x = 0, xend = unemployment_rate_2022, 
+                   y = county_name, yend = county_name), 
+               color = "gray70", size = 0.5) +
+  geom_point(color = "#f39c12", size = 2.5, alpha = 0.8) +
+  scale_x_continuous(expand = c(0.02, 0), limits = c(0, NA)) +
+  labs(
+    title = "Unemployment Rates Across Pennsylvania Counties",
+    subtitle = "2022 unemployment rate by county",
+    x = "Unemployment Rate (%)",
+    y = NULL,
+    caption = "Source: Bureau of Labor Statistics"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.y = element_text(size = 6.5, color = "black"),
+    axis.text.x = element_text(size = 8),
+    plot.title = element_text(size = 12, face = "bold", margin = margin(b = 5)),
+    plot.subtitle = element_text(size = 10, color = "gray40", margin = margin(b = 15)),
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.grid.major.x = element_line(color = "gray90", linewidth = 0.5),
+    plot.margin = margin(10, 10, 10, 10)
+  )
+
+appp_data |>
+  filter(!is.na(pct_prenatal_care_first_trimester)) |>
   arrange(pct_prenatal_care_first_trimester) |>
-  select(county_name, pct_prenatal_care_first_trimester) |>
-  slice_head(n = 20)
-
-top_20_counties <- appp_data |>
-  arrange(desc(pct_prenatal_care_first_trimester)) |>
-  select(county_name, pct_prenatal_care_first_trimester) |>
-  slice_head(n = 20)
-
-top_20_counties |>
-  mutate(county_name = fct_reorder(county_name, pct_prenatal_care_first_trimester)) |>
-  ggplot(aes(x = pct_prenatal_care_first_trimester, y = county_name)) + 
-  geom_col(alpha = 0.8) +
-  scale_x_continuous() +
+  mutate(county_name = fct_inorder(county_name)) |>
+  ggplot(aes(x = pct_prenatal_care_first_trimester, y = county_name)) +
+  geom_segment(aes(x = 0, xend = pct_prenatal_care_first_trimester, 
+                   y = county_name, yend = county_name), 
+               color = "gray70", size = 0.5) +
+  geom_point(color = "#27ae60", size = 2.5, alpha = 0.8) +
+  scale_x_continuous(expand = c(0.02, 0), limits = c(0, 100)) +
   labs(
-    title = "Rates of Top 20 Counties in Pennsylvania for \nReceiving Prenatal Care in First Semester of Pregnancy",
-    subtitle = "Data from PA Department of Health",
-    x = "Rate (%)",
-    y = "County"
+    title = "First Trimester Prenatal Care Access",
+    subtitle = "Percentage of pregnant women receiving care in first trimester",
+    x = "Percentage Receiving First Trimester Care (%)",
+    y = NULL,
+    caption = "Source: Pennsylvania Department of Health"
   ) +
   theme_minimal() +
   theme(
-    axis.text.y = element_text(size = 8),
-    plot.title = element_text(size = 10, face = "bold")
+    axis.text.y = element_text(size = 6.5, color = "black"),
+    axis.text.x = element_text(size = 8),
+    plot.title = element_text(size = 12, face = "bold", margin = margin(b = 5)),
+    plot.subtitle = element_text(size = 10, color = "gray40", margin = margin(b = 15)),
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.grid.major.x = element_line(color = "gray90", linewidth = 0.5),
+    plot.margin = margin(10, 10, 10, 10)
   )
 
-bottom_20_counties |>
-  mutate(county_name = fct_reorder(county_name, pct_prenatal_care_first_trimester)) |>
-  ggplot(aes(x = pct_prenatal_care_first_trimester, y = county_name)) +
-  geom_col(alpha = 0.6) +
-  scale_x_continuous() +
+appp_data |>
+  filter(!is.na(pct_low_birth_weight)) |>
+  arrange(pct_low_birth_weight) |>
+  mutate(county_name = fct_inorder(county_name)) |>
+  ggplot(aes(x = pct_low_birth_weight, y = county_name)) +
+  geom_segment(aes(x = 0, xend = pct_low_birth_weight, 
+                   y = county_name, yend = county_name), 
+               color = "gray70", size = 0.5) +
+  geom_point(color = "#8e44ad", size = 2.5, alpha = 0.8) +
+  scale_x_continuous(expand = c(0.02, 0), limits = c(0, NA)) +
   labs(
-    title = "Rates of Bottom 20 Counties in Pennsylvania for \nReceiving Prenatal Care in First Semester of Pregnancy",
-    subtitle = "Data from PA Department of Health",
-    x = "Rate (%)",
-    y = "County",
+    title = "Low Birth Weight Rates by County",
+    subtitle = "Percentage of births under x grams",
+    x = "Low Birth Weight Rate (%)",
+    y = NULL,
+    caption = "Source: Pennsylvania Department of Health"
   ) +
-    theme_minimal() +
+  theme_minimal() +
   theme(
-    axis.text.y = element_text(size = 8),
-    plot.title = element_text(size = 10, face = "bold")
+    axis.text.y = element_text(size = 6.5, color = "black"),
+    axis.text.x = element_text(size = 8),
+    plot.title = element_text(size = 12, face = "bold", margin = margin(b = 5)),
+    plot.subtitle = element_text(size = 10, color = "gray40", margin = margin(b = 15)),
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.grid.major.x = element_line(color = "gray90", linewidth = 0.5),
+    plot.margin = margin(10, 10, 10, 10)
   )
+
+appp_data |>
+  filter(!is.na(median_household_income_2022)) |>
+  arrange(median_household_income_2022) |>
+  mutate(county_name = fct_inorder(county_name)) |>
+  ggplot(aes(x = median_household_income_2022, y = county_name)) +
+  geom_segment(aes(x = 0, xend = median_household_income_2022, 
+                   y = county_name, yend = county_name), 
+               color = "gray70", size = 0.5) +
+  geom_point(color = "#16a085", size = 2.5, alpha = 0.8) +
+  scale_x_continuous(expand = c(0.02, 0), limits = c(0, NA),
+                     labels = scales::dollar_format(scale = 1/1000, suffix = "K")) +
+  labs(
+    title = "Median Household Income by County",
+    subtitle = "2022 median household income",
+    x = "Median Household Income",
+    y = NULL,
+    caption = "Source: US Census Bureau"
+  ) +
+  theme_minimal() +
+  theme(
+    axis.text.y = element_text(size = 6.5, color = "black"),
+    axis.text.x = element_text(size = 8),
+    plot.title = element_text(size = 12, face = "bold", margin = margin(b = 5)),
+    plot.subtitle = element_text(size = 10, color = "gray40", margin = margin(b = 15)),
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor = element_blank(),
+    panel.grid.major.x = element_line(color = "gray90", linewidth = 0.5),
+    plot.margin = margin(10, 10, 10, 10)
+  )
+
+appp_data |>
+  filter(!is.na(rate_of_pregnant_women_with_oud_diagnosis)) |>
+  ggplot(aes(x = rate_of_pregnant_women_with_oud_diagnosis)) +
+  geom_histogram(bins = 15, fill = "steelblue", alpha = 0.7, color = "white") +
+  geom_vline(aes(xintercept = mean(rate_of_pregnant_women_with_oud_diagnosis, na.rm = TRUE)),
+             color = "#e74c3c", linetype = "dashed", size = 1) +
+  annotate("text", 
+           x = mean(appp_data$rate_of_pregnant_women_with_oud_diagnosis, na.rm = TRUE) - 15,
+           y = 10, label = "State Average", color = "#e74c3c", size = 3.5) +
+  labs(
+    title = "Distribution of OUD Rates Across Pennsylvania Counties",
+    subtitle = "Number of counties by OUD rate range",
+    x = "OUD Rate per 1,000 Pregnant Women",
+    y = "Number of Counties"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 12, face = "bold"),
+    plot.subtitle = element_text(size = 10, color = "gray40")
+  )
+
 ```
 
 ## EDA - ANOVA?
@@ -279,12 +442,49 @@ model7.lm <- lm(rate_of_pregnant_women_with_oud_diagnosis ~
                   fertility_rate,
                 data = appp_data)
 summary(model7.lm)
-```
 
-```{r}
+### Model 7 with highest R^2 value, also shows significance in 5 different variables ###
 
-appp_data |>
-  ggplot(aes(x = pct_black, y = rate_of_pregnant_women_with_oud_diagnosis)) +
-  geom_point() +
-  geom_smooth(method = "lm")
+model7a.lm <- lm(rate_of_pregnant_women_with_oud_diagnosis ~
+                   rural_urban_continuum_code_2023 * pct_prenatal_care_first_trimester +
+                   pct_black + pct_hispanic + unemployment_rate_2022 * 
+                   log(median_household_income_2022) + fertility_rate + 
+                   pct_fair_poor_health + pct_low_birth_weight + pct_cesarean_section, 
+                 data = appp_data)
+summary(model7a.lm)
+
+model7b.lm <- lm(rate_of_pregnant_women_with_oud_diagnosis ~
+                   rural_urban_continuum_code_2023 * pct_prenatal_care_first_trimester +
+                   pct_black + pct_hispanic + unemployment_rate_2022 * 
+                   log(median_household_income_2022) + fertility_rate + 
+                   pct_fair_poor_health + pct_low_birth_weight * pct_cesarean_section +
+                   poverty_rate * rural_urban_continuum_code_2023, 
+                 data = appp_data)
+summary(model7b.lm)
+
+model7c.lm <- lm(rate_of_pregnant_women_with_oud_diagnosis ~
+                  rural_urban_continuum_code_2023 * pct_prenatal_care_first_trimester +
+                  pct_black + I(pct_black^2) +
+                  pct_hispanic + I(pct_hispanic^2) +
+                  unemployment_rate_2022 * log(median_household_income_2022) +
+                  pct_prenatal_care_first_trimester + I(pct_prenatal_care_first_trimester^2) +
+                  fertility_rate + I(fertility_rate^2),
+                data = appp_data)
+summary(model7c.lm)
+
+model7d.lm <- lm(rate_of_pregnant_women_with_oud_diagnosis ~
+                   rural_urban_continuum_code_2023 * pct_prenatal_care_first_trimester +
+                   pct_black + I(pct_black^2) + pct_hispanic + I(pct_hispanic^2) +
+                   unemployment_rate_2022 * log(median_household_income_2022) +
+                   pct_prenatal_care_first_trimester + I(pct_prenatal_care_first_trimester^2), 
+                 data = appp_data)
+summary(model7d.lm)
+
+model7e.lm <- lm(rate_of_pregnant_women_with_oud_diagnosis ~
+                   rural_urban_continuum_code_2023 * pct_prenatal_care_first_trimester +
+                   pct_black + pct_hispanic + I(pct_hispanic^2) +
+                   unemployment_rate_2022 + log(median_household_income_2022) +
+                   fertility_rate + pct_fair_poor_health,
+                 data = appp_data)
+summary(model7e.lm)
 ```
