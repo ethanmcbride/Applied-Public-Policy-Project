@@ -189,9 +189,9 @@ appp_data |>
 ## Preliminary models
 
 ```{r}
-
+# Base model #
 model.lm <- lm(rate_of_pregnant_women_with_oud_diagnosis ~ 
-                 met_nonmet2023 + pct_black + 
+                 pct_black + pct_hispanic + 
                  unemployment_rate_2019 + 
                  median_household_income_2022 + 
                  pct_prenatal_care_first_trimester + 
@@ -199,6 +199,7 @@ model.lm <- lm(rate_of_pregnant_women_with_oud_diagnosis ~
                data = appp_data)
 summary(model.lm)
 
+# Base model with more variables #
 model2.lm <- lm(rate_of_pregnant_women_with_oud_diagnosis ~ 
                   rural_urban_continuum_code_2023 +
                   pct_black + pct_hispanic + 
@@ -212,17 +213,72 @@ model2.lm <- lm(rate_of_pregnant_women_with_oud_diagnosis ~
                 data = appp_data)
 summary(model2.lm)
 
+# Interaction between urban area and pct_black #
 model3.lm <- lm(rate_of_pregnant_women_with_oud_diagnosis ~ 
-            rural_urban_continuum_code_2023 * pct_black +
-            pct_hispanic + 
-            unemployment_rate_2022 + 
-            median_household_income_2022 +
-            pct_prenatal_care_first_trimester +
-            pct_low_birth_weight +
-            fertility_rate + 
-            pct_fair_poor_health, 
-            data = appp_data)
+                  rural_urban_continuum_code_2023 * pct_black +
+                  pct_hispanic + 
+                  unemployment_rate_2022 + 
+                  median_household_income_2022 +
+                  pct_prenatal_care_first_trimester +
+                  pct_low_birth_weight +
+                  fertility_rate + 
+                  pct_fair_poor_health + total_population,
+                data = appp_data)
 summary(model3.lm)
+
+# Logarithmic transformation on median household income & total population #
+model4.lm <- lm(rate_of_pregnant_women_with_oud_diagnosis ~
+                  rural_urban_continuum_code_2023 * pct_black +
+                  pct_hispanic + unemployment_rate_2022 + 
+                  log(median_household_income_2022) +
+                  pct_prenatal_care_first_trimester +
+                  pct_low_birth_weight +
+                  fertility_rate +
+                  pct_fair_poor_health + log(total_population),
+                data = appp_data)
+summary(model4.lm)
+
+# Adding poverty rate as an interaction term with rural/urban continuum #
+model5.lm <- lm(rate_of_pregnant_women_with_oud_diagnosis ~
+                  poverty_rate * rural_urban_continuum_code_2023 +
+                  pct_black + pct_hispanic + 
+                  unemployment_rate_2022 + 
+                  log(median_household_income_2022) +
+                  pct_prenatal_care_first_trimester +
+                  pct_low_birth_weight + fertility_rate,
+                data = appp_data)
+summary(model5)
+
+# Model with pct_black and pct_hispanic interaction #
+model8.lm <- lm(rate_of_pregnant_women_with_oud_diagnosis ~
+                  rural_urban_continuum_code_2023 +
+                  pct_black * pct_hispanic +
+                  unemployment_rate_2022 + 
+                  log(median_household_income_2022) +
+                  pct_prenatal_care_first_trimester +
+                  pct_low_birth_weight + fertility_rate,
+                data = appp_data)
+summary(model8.lm)
+
+# Polynomial terms for pct_black #
+model6.lm <- lm(rate_of_pregnant_women_with_oud_diagnosis ~ 
+                  rural_urban_continuum_code_2023 +
+                  pct_black + I(pct_black^2) +
+                  pct_hispanic + unemployment_rate_2022 +
+                  log(median_household_income_2022) +
+                  pct_prenatal_care_first_trimester +
+                  fertility_rate + pct_fair_poor_health,
+                data = appp_data)
+summary(model6.lm)
+
+# Healthcare access interaction #
+model7.lm <- lm(rate_of_pregnant_women_with_oud_diagnosis ~
+                  rural_urban_continuum_code_2023 * pct_prenatal_care_first_trimester +
+                  pct_black + pct_hispanic + unemployment_rate_2022 * log(median_household_income_2022) +
+                  pct_prenatal_care_first_trimester + I(pct_prenatal_care_first_trimester^2) +
+                  fertility_rate,
+                data = appp_data)
+summary(model7.lm)
 ```
 
 ```{r}
