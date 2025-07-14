@@ -235,7 +235,7 @@ appp_data |>
   ggplot(aes(x = rate_of_pregnant_women_with_oud_diagnosis)) +
   geom_histogram(bins = 15, fill = "steelblue", alpha = 0.7, color = "white") +
   geom_vline(aes(xintercept = mean(rate_of_pregnant_women_with_oud_diagnosis, na.rm = TRUE)),
-             color = "#e74c3c", linetype = "dashed", size = 1) +
+             color = "#e74c3c", linetype = "dashed", linewidth = 1) +
   annotate("text", 
            x = mean(appp_data$rate_of_pregnant_women_with_oud_diagnosis, na.rm = TRUE) - 15,
            y = 10, label = "State Average", color = "#e74c3c", size = 3.5) +
@@ -335,7 +335,6 @@ anova_results <- lapply(variables_for_test, function(var) {
 names(anova_results) <- variables_for_test
 ```
 
-
 ## Summary statistics
 
 ```{r}
@@ -410,7 +409,7 @@ model5.lm <- lm(rate_of_pregnant_women_with_oud_diagnosis ~
                   pct_prenatal_care_first_trimester +
                   pct_low_birth_weight + fertility_rate,
                 data = appp_data)
-summary(model5)
+summary(model5.lm)
 
 # Model with pct_black and pct_hispanic interaction #
 model8.lm <- lm(rate_of_pregnant_women_with_oud_diagnosis ~

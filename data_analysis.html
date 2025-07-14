@@ -1,0 +1,1828 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Ethan McBride">
+
+<title>data_analysis</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="data_analysis_files/libs/clipboard/clipboard.min.js"></script>
+<script src="data_analysis_files/libs/quarto-html/quarto.js"></script>
+<script src="data_analysis_files/libs/quarto-html/popper.min.js"></script>
+<script src="data_analysis_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="data_analysis_files/libs/quarto-html/anchor.min.js"></script>
+<link href="data_analysis_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="data_analysis_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="data_analysis_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="data_analysis_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="data_analysis_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">data_analysis</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Ethan McBride </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="loading-necessary-packages-and-data" class="level2">
+<h2 class="anchored" data-anchor-id="loading-necessary-packages-and-data">Loading necessary packages and data</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.5.2     ✔ tibble    3.3.0
+✔ lubridate 1.9.4     ✔ tidyr     1.3.1
+✔ purrr     1.0.4     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>appp_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/APPP_dataset.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 67 Columns: 220
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr    (9): county_name, type_of_rate, number_of_women_with_a_delivery_and_o...
+dbl  (207): total_population, total_male, total_female, white_alone_male, wh...
+num    (1): rank_within_us_of_3143_counties
+lgl    (1): total_number_of_deliveries_notes
+date   (2): census_date, medicaid_date
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>appp_data <span class="ot">&lt;-</span> appp_data <span class="sc">|&gt;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(total_population) <span class="sc">|&gt;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">pop_category =</span> <span class="fu">case_when</span>(</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>      total_population <span class="sc">&gt;</span> <span class="dv">500000</span> <span class="sc">~</span> <span class="st">"Large (500K+)"</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>      total_population <span class="sc">&gt;</span> <span class="dv">100000</span> <span class="sc">~</span> <span class="st">"Medium (100K-500K)"</span>, </span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>      total_population <span class="sc">&gt;</span> <span class="dv">50000</span> <span class="sc">~</span> <span class="st">"Small (50K-100K)"</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"Very Small (&lt;50K)"</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="eda---focused-on-access-to-care" class="level2">
+<h2 class="anchored" data-anchor-id="eda---focused-on-access-to-care">EDA - focused on access to care</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>appp_data <span class="sc">|&gt;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(total_population)) <span class="sc">|&gt;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(total_population) <span class="sc">|&gt;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">county_name =</span> <span class="fu">fct_inorder</span>(county_name)) <span class="sc">|&gt;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> total_population, <span class="at">y =</span> county_name)) <span class="sc">+</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">0</span>, <span class="at">xend =</span> total_population, </span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>                   <span class="at">y =</span> county_name, <span class="at">yend =</span> county_name), </span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">color =</span> <span class="st">"gray70"</span>, <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"steelblue"</span>, <span class="at">size =</span> <span class="fl">2.5</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="fl">0.02</span>, <span class="dv">0</span>), <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="cn">NA</span>)) <span class="sc">+</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Total Population of All Pennsylvania Counties"</span>,</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="cn">NULL</span>,</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="cn">NULL</span>,</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Source: US Census Bureau"</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fl">6.5</span>, <span class="at">color =</span> <span class="st">"black"</span>),</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>),</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">b =</span> <span class="dv">5</span>)),</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">color =</span> <span class="st">"gray40"</span>, <span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">b =</span> <span class="dv">15</span>)),</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.major.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.major.x =</span> <span class="fu">element_line</span>(<span class="at">color =</span> <span class="st">"gray90"</span>, <span class="at">linewidth =</span> <span class="fl">0.5</span>),</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">10</span>)</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.
+ℹ Please use `linewidth` instead.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="data_analysis_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>appp_data <span class="sc">|&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(rate_of_pregnant_women_with_oud_diagnosis)) <span class="sc">|&gt;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(rate_of_pregnant_women_with_oud_diagnosis) <span class="sc">|&gt;</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">county_name =</span> <span class="fu">fct_inorder</span>(county_name)) <span class="sc">|&gt;</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> rate_of_pregnant_women_with_oud_diagnosis, <span class="at">y =</span> county_name)) <span class="sc">+</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">0</span>, <span class="at">xend =</span> rate_of_pregnant_women_with_oud_diagnosis, </span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>                   <span class="at">y =</span> county_name, <span class="at">yend =</span> county_name), </span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">color =</span> <span class="st">"gray70"</span>, <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"steelblue"</span>, <span class="at">size =</span> <span class="fl">2.5</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="fl">0.02</span>, <span class="dv">0</span>), <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="cn">NA</span>)) <span class="sc">+</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Opioid Use Disorder Rates Among Pregnant Women"</span>,</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Pennsylvania Counties | Rate per 1,000 pregnant women"</span>,</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Rate per 1,000 pregnant women"</span>,</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="cn">NULL</span>,</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Source: Pennsylvania Department of Health"</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fl">6.5</span>, <span class="at">color =</span> <span class="st">"black"</span>),</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>),</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">b =</span> <span class="dv">5</span>)),</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">color =</span> <span class="st">"gray40"</span>, <span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">b =</span> <span class="dv">15</span>)),</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.major.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.major.x =</span> <span class="fu">element_line</span>(<span class="at">color =</span> <span class="st">"gray90"</span>, <span class="at">linewidth =</span> <span class="fl">0.5</span>),</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">10</span>)</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="data_analysis_files/figure-html/unnamed-chunk-2-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>appp_data <span class="sc">|&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(poverty_rate)) <span class="sc">|&gt;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(poverty_rate) <span class="sc">|&gt;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">county_name =</span> <span class="fu">fct_inorder</span>(county_name)) <span class="sc">|&gt;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> poverty_rate, <span class="at">y =</span> county_name)) <span class="sc">+</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">0</span>, <span class="at">xend =</span> poverty_rate, </span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>                   <span class="at">y =</span> county_name, <span class="at">yend =</span> county_name), </span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">color =</span> <span class="st">"gray70"</span>, <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"#e74c3c"</span>, <span class="at">size =</span> <span class="fl">2.5</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="fl">0.02</span>, <span class="dv">0</span>), <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="cn">NA</span>)) <span class="sc">+</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Poverty Rates Across Pennsylvania Counties"</span>,</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Percentage of families below poverty line"</span>,</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Poverty Rate (%)"</span>,</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="cn">NULL</span>,</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Source: US Department of Agriculture Economic Research Service (ERS)"</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fl">6.5</span>, <span class="at">color =</span> <span class="st">"black"</span>),</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>),</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">b =</span> <span class="dv">5</span>)),</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">color =</span> <span class="st">"gray40"</span>, <span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">b =</span> <span class="dv">15</span>)),</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.major.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.major.x =</span> <span class="fu">element_line</span>(<span class="at">color =</span> <span class="st">"gray90"</span>, <span class="at">linewidth =</span> <span class="fl">0.5</span>),</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">10</span>)</span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="data_analysis_files/figure-html/unnamed-chunk-2-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>appp_data <span class="sc">|&gt;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(unemployment_rate_2022)) <span class="sc">|&gt;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(unemployment_rate_2022) <span class="sc">|&gt;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">county_name =</span> <span class="fu">fct_inorder</span>(county_name)) <span class="sc">|&gt;</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> unemployment_rate_2022, <span class="at">y =</span> county_name)) <span class="sc">+</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">0</span>, <span class="at">xend =</span> unemployment_rate_2022, </span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>                   <span class="at">y =</span> county_name, <span class="at">yend =</span> county_name), </span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">color =</span> <span class="st">"gray70"</span>, <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"#f39c12"</span>, <span class="at">size =</span> <span class="fl">2.5</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="fl">0.02</span>, <span class="dv">0</span>), <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="cn">NA</span>)) <span class="sc">+</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Unemployment Rates Across Pennsylvania Counties"</span>,</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"2022 unemployment rate by county"</span>,</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Unemployment Rate (%)"</span>,</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="cn">NULL</span>,</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Source: Bureau of Labor Statistics"</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fl">6.5</span>, <span class="at">color =</span> <span class="st">"black"</span>),</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>),</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">b =</span> <span class="dv">5</span>)),</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">color =</span> <span class="st">"gray40"</span>, <span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">b =</span> <span class="dv">15</span>)),</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.major.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.major.x =</span> <span class="fu">element_line</span>(<span class="at">color =</span> <span class="st">"gray90"</span>, <span class="at">linewidth =</span> <span class="fl">0.5</span>),</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">10</span>)</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="data_analysis_files/figure-html/unnamed-chunk-2-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>appp_data <span class="sc">|&gt;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(pct_prenatal_care_first_trimester)) <span class="sc">|&gt;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(pct_prenatal_care_first_trimester) <span class="sc">|&gt;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">county_name =</span> <span class="fu">fct_inorder</span>(county_name)) <span class="sc">|&gt;</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> pct_prenatal_care_first_trimester, <span class="at">y =</span> county_name)) <span class="sc">+</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">0</span>, <span class="at">xend =</span> pct_prenatal_care_first_trimester, </span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>                   <span class="at">y =</span> county_name, <span class="at">yend =</span> county_name), </span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">color =</span> <span class="st">"gray70"</span>, <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"#27ae60"</span>, <span class="at">size =</span> <span class="fl">2.5</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="fl">0.02</span>, <span class="dv">0</span>), <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>)) <span class="sc">+</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"First Trimester Prenatal Care Access"</span>,</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Percentage of pregnant women receiving care in first trimester"</span>,</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Percentage Receiving First Trimester Care (%)"</span>,</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="cn">NULL</span>,</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Source: Pennsylvania Department of Health"</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fl">6.5</span>, <span class="at">color =</span> <span class="st">"black"</span>),</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>),</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">b =</span> <span class="dv">5</span>)),</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">color =</span> <span class="st">"gray40"</span>, <span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">b =</span> <span class="dv">15</span>)),</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.major.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.major.x =</span> <span class="fu">element_line</span>(<span class="at">color =</span> <span class="st">"gray90"</span>, <span class="at">linewidth =</span> <span class="fl">0.5</span>),</span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">10</span>)</span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="data_analysis_files/figure-html/unnamed-chunk-2-5.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>appp_data <span class="sc">|&gt;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(pct_low_birth_weight)) <span class="sc">|&gt;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(pct_low_birth_weight) <span class="sc">|&gt;</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">county_name =</span> <span class="fu">fct_inorder</span>(county_name)) <span class="sc">|&gt;</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> pct_low_birth_weight, <span class="at">y =</span> county_name)) <span class="sc">+</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">0</span>, <span class="at">xend =</span> pct_low_birth_weight, </span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>                   <span class="at">y =</span> county_name, <span class="at">yend =</span> county_name), </span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">color =</span> <span class="st">"gray70"</span>, <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"#8e44ad"</span>, <span class="at">size =</span> <span class="fl">2.5</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="fl">0.02</span>, <span class="dv">0</span>), <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="cn">NA</span>)) <span class="sc">+</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Low Birth Weight Rates by County"</span>,</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Percentage of births under x grams"</span>,</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Low Birth Weight Rate (%)"</span>,</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="cn">NULL</span>,</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Source: Pennsylvania Department of Health"</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fl">6.5</span>, <span class="at">color =</span> <span class="st">"black"</span>),</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>),</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">b =</span> <span class="dv">5</span>)),</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">color =</span> <span class="st">"gray40"</span>, <span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">b =</span> <span class="dv">15</span>)),</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.major.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.major.x =</span> <span class="fu">element_line</span>(<span class="at">color =</span> <span class="st">"gray90"</span>, <span class="at">linewidth =</span> <span class="fl">0.5</span>),</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">10</span>)</span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="data_analysis_files/figure-html/unnamed-chunk-2-6.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>appp_data <span class="sc">|&gt;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(median_household_income_2022)) <span class="sc">|&gt;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(median_household_income_2022) <span class="sc">|&gt;</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">county_name =</span> <span class="fu">fct_inorder</span>(county_name)) <span class="sc">|&gt;</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> median_household_income_2022, <span class="at">y =</span> county_name)) <span class="sc">+</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">0</span>, <span class="at">xend =</span> median_household_income_2022, </span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>                   <span class="at">y =</span> county_name, <span class="at">yend =</span> county_name), </span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">color =</span> <span class="st">"gray70"</span>, <span class="at">size =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">"#16a085"</span>, <span class="at">size =</span> <span class="fl">2.5</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="fl">0.02</span>, <span class="dv">0</span>), <span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="cn">NA</span>),</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>                     <span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">dollar_format</span>(<span class="at">scale =</span> <span class="dv">1</span><span class="sc">/</span><span class="dv">1000</span>, <span class="at">suffix =</span> <span class="st">"K"</span>)) <span class="sc">+</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Median Household Income by County"</span>,</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"2022 median household income"</span>,</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Median Household Income"</span>,</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="cn">NULL</span>,</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Source: US Census Bureau"</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="fl">6.5</span>, <span class="at">color =</span> <span class="st">"black"</span>),</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>),</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">b =</span> <span class="dv">5</span>)),</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">color =</span> <span class="st">"gray40"</span>, <span class="at">margin =</span> <span class="fu">margin</span>(<span class="at">b =</span> <span class="dv">15</span>)),</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.major.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.major.x =</span> <span class="fu">element_line</span>(<span class="at">color =</span> <span class="st">"gray90"</span>, <span class="at">linewidth =</span> <span class="fl">0.5</span>),</span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">10</span>)</span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="data_analysis_files/figure-html/unnamed-chunk-2-7.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>appp_data <span class="sc">|&gt;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(rate_of_pregnant_women_with_oud_diagnosis)) <span class="sc">|&gt;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> rate_of_pregnant_women_with_oud_diagnosis)) <span class="sc">+</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">15</span>, <span class="at">fill =</span> <span class="st">"steelblue"</span>, <span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="fu">aes</span>(<span class="at">xintercept =</span> <span class="fu">mean</span>(rate_of_pregnant_women_with_oud_diagnosis, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)),</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">color =</span> <span class="st">"#e74c3c"</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, </span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>           <span class="at">x =</span> <span class="fu">mean</span>(appp_data<span class="sc">$</span>rate_of_pregnant_women_with_oud_diagnosis, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">-</span> <span class="dv">15</span>,</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>           <span class="at">y =</span> <span class="dv">10</span>, <span class="at">label =</span> <span class="st">"State Average"</span>, <span class="at">color =</span> <span class="st">"#e74c3c"</span>, <span class="at">size =</span> <span class="fl">3.5</span>) <span class="sc">+</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Distribution of OUD Rates Across Pennsylvania Counties"</span>,</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Number of counties by OUD rate range"</span>,</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"OUD Rate per 1,000 Pregnant Women"</span>,</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Number of Counties"</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">color =</span> <span class="st">"gray40"</span>)</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="data_analysis_files/figure-html/unnamed-chunk-2-8.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="eda---anova" class="level2">
+<h2 class="anchored" data-anchor-id="eda---anova">EDA - ANOVA?</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>anova_data <span class="ot">&lt;-</span> appp_data <span class="sc">|&gt;</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(rate_of_pregnant_women_with_oud_diagnosis)) <span class="sc">|&gt;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">county_group =</span> <span class="fu">case_when</span>(</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>      county_name <span class="sc">==</span> <span class="st">"Allegheny"</span> <span class="sc">~</span> <span class="st">"Allegheny County"</span>,</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>      pop_category <span class="sc">==</span> <span class="st">"Large (500K+)"</span> <span class="sc">&amp;</span> county_name <span class="sc">!=</span> <span class="st">"Allegheny"</span> <span class="sc">~</span> <span class="st">"Other Large Counties"</span>,</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>      pop_category <span class="sc">==</span> <span class="st">"Medium (100K-500K)"</span> <span class="sc">~</span> <span class="st">"Medium Counties"</span>,</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>      pop_category <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Small (50K-100K)"</span>, <span class="st">"Very Small (&lt;50K)"</span>) <span class="sc">~</span> <span class="st">"Small Counties"</span>,</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>      <span class="cn">TRUE</span> <span class="sc">~</span> <span class="st">"Other"</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(county_group <span class="sc">!=</span> <span class="st">"Other"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>    county_name, county_group,</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    <span class="do">### OUD rates </span><span class="al">###</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">oud_rate =</span> rate_of_pregnant_women_with_oud_diagnosis,</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>    <span class="do">### SES </span><span class="al">###</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>    poverty_rate, unemployment_rate_2019, median_household_income_2022,</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>    <span class="do">### Health factors </span><span class="al">###</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>    pct_fair_poor_health, pct_prenatal_care_first_trimester, </span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>    fertility_rate, pct_low_birth_weight, pct_cesarean_section,</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>    <span class="do">### Demographics </span><span class="al">###</span></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>    pct_black, pct_hispanic, pct_asian, pct_white,</span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>    <span class="do">### Geographical data </span><span class="al">###</span></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>    rural_urban_continuum_code_2023, metro_2023,</span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>    <span class="do">### Total population</span></span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>    total_population</span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>variables_for_test <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>  <span class="st">"oud_rate"</span>, <span class="st">"poverty_rate"</span>, <span class="st">"unemployment_rate_2019"</span>, </span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>  <span class="st">"median_household_income_2022"</span>, <span class="st">"pct_fair_poor_health"</span>, </span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>  <span class="st">"pct_prenatal_care_first_trimester"</span>, <span class="st">"fertility_rate"</span>, </span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>  <span class="st">"pct_low_birth_weight"</span>, <span class="st">"pct_cesarean_section"</span>, </span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>  <span class="st">"pct_black"</span>, <span class="st">"pct_hispanic"</span>, <span class="st">"pct_asian"</span>, <span class="st">"pct_white"</span></span>
+<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a><span class="do">### Creating function for ANOVA tests </span><span class="al">###</span></span>
+<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a>anova_test <span class="ot">&lt;-</span> <span class="cf">function</span>(data, variable) {</span>
+<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a>  clean_data <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span></span>
+<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(.data[[variable]]))</span>
+<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">nrow</span>(clean_data) <span class="sc">&lt;</span> <span class="dv">4</span>) {</span>
+<span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">list</span>(<span class="at">anova_result =</span> <span class="cn">NULL</span>, <span class="at">tukey_result =</span> <span class="cn">NULL</span>,</span>
+<span id="cb15-45"><a href="#cb15-45" aria-hidden="true" tabindex="-1"></a>                <span class="at">message =</span> <span class="fu">paste</span>(<span class="st">"Not enough data for ANOVA on"</span>, variable)))</span>
+<span id="cb15-46"><a href="#cb15-46" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb15-47"><a href="#cb15-47" aria-hidden="true" tabindex="-1"></a>  <span class="do">### ANOVA test </span><span class="al">###</span></span>
+<span id="cb15-48"><a href="#cb15-48" aria-hidden="true" tabindex="-1"></a>  formula <span class="ot">&lt;-</span> <span class="fu">as.formula</span>(<span class="fu">paste</span>(variable, <span class="st">"~ county_group"</span>))</span>
+<span id="cb15-49"><a href="#cb15-49" aria-hidden="true" tabindex="-1"></a>  aov_model <span class="ot">&lt;-</span> <span class="fu">aov</span>(formula, <span class="at">data =</span> clean_data)</span>
+<span id="cb15-50"><a href="#cb15-50" aria-hidden="true" tabindex="-1"></a>  anova_result <span class="ot">&lt;-</span> broom<span class="sc">::</span><span class="fu">tidy</span>(aov_model)</span>
+<span id="cb15-51"><a href="#cb15-51" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb15-52"><a href="#cb15-52" aria-hidden="true" tabindex="-1"></a>  <span class="do">### Extract p-value </span><span class="al">###</span></span>
+<span id="cb15-53"><a href="#cb15-53" aria-hidden="true" tabindex="-1"></a>  p_val <span class="ot">&lt;-</span> anova_result<span class="sc">$</span>p.value[<span class="dv">1</span>]</span>
+<span id="cb15-54"><a href="#cb15-54" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb15-55"><a href="#cb15-55" aria-hidden="true" tabindex="-1"></a>  <span class="do">### HSD / Tukey's </span><span class="al">###</span></span>
+<span id="cb15-56"><a href="#cb15-56" aria-hidden="true" tabindex="-1"></a>  tukey_result <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb15-57"><a href="#cb15-57" aria-hidden="true" tabindex="-1"></a>  tukey_tidy <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb15-58"><a href="#cb15-58" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(<span class="sc">!</span><span class="fu">is.na</span>(p_val) <span class="sc">&amp;&amp;</span> p_val<span class="sc">&lt;</span> <span class="fl">0.05</span>) {</span>
+<span id="cb15-59"><a href="#cb15-59" aria-hidden="true" tabindex="-1"></a>    tukey_result <span class="ot">&lt;-</span> <span class="fu">TukeyHSD</span>(aov_model)</span>
+<span id="cb15-60"><a href="#cb15-60" aria-hidden="true" tabindex="-1"></a>    tukey_tidy <span class="ot">&lt;-</span> broom<span class="sc">::</span><span class="fu">tidy</span>(tukey_result)</span>
+<span id="cb15-61"><a href="#cb15-61" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb15-62"><a href="#cb15-62" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb15-63"><a href="#cb15-63" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">list</span>(</span>
+<span id="cb15-64"><a href="#cb15-64" aria-hidden="true" tabindex="-1"></a>    <span class="at">anova_result =</span> anova_result,</span>
+<span id="cb15-65"><a href="#cb15-65" aria-hidden="true" tabindex="-1"></a>    <span class="at">tukey_result =</span> tukey_tidy,</span>
+<span id="cb15-66"><a href="#cb15-66" aria-hidden="true" tabindex="-1"></a>    <span class="at">model =</span> aov_model,</span>
+<span id="cb15-67"><a href="#cb15-67" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> clean_data,</span>
+<span id="cb15-68"><a href="#cb15-68" aria-hidden="true" tabindex="-1"></a>    <span class="at">variable =</span> variable,</span>
+<span id="cb15-69"><a href="#cb15-69" aria-hidden="true" tabindex="-1"></a>    <span class="at">p_value =</span> p_val</span>
+<span id="cb15-70"><a href="#cb15-70" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb15-71"><a href="#cb15-71" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-72"><a href="#cb15-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-73"><a href="#cb15-73" aria-hidden="true" tabindex="-1"></a>anova_results <span class="ot">&lt;-</span> <span class="fu">lapply</span>(variables_for_test, <span class="cf">function</span>(var) {</span>
+<span id="cb15-74"><a href="#cb15-74" aria-hidden="true" tabindex="-1"></a>  <span class="fu">anova_test</span>(anova_data, var)</span>
+<span id="cb15-75"><a href="#cb15-75" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb15-76"><a href="#cb15-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-77"><a href="#cb15-77" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(anova_results) <span class="ot">&lt;-</span> variables_for_test</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="summary-statistics" class="level2">
+<h2 class="anchored" data-anchor-id="summary-statistics">Summary statistics</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>appp_data <span class="sc">|&gt;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(pop_category) <span class="sc">|&gt;</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">mean_pov_rate =</span> <span class="fu">round</span>(<span class="fu">mean</span>(poverty_rate, <span class="at">na.rm =</span> T), <span class="dv">2</span>),</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean_oud_rate =</span> <span class="fu">round</span>(<span class="fu">mean</span>(rate_of_pregnant_women_with_oud_diagnosis, <span class="at">na.rm =</span> T), <span class="dv">2</span>),</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean_unemployment_rate =</span> <span class="fu">round</span>(<span class="fu">mean</span>(unemployment_rate_2019, <span class="at">na.rm =</span> T), <span class="dv">2</span>),</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean_pct_fair_poor_health =</span> <span class="fu">round</span>(<span class="fu">mean</span>(pct_fair_poor_health, <span class="at">na.rm =</span> T), <span class="dv">2</span>),</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean_fertility_rate =</span> <span class="fu">round</span>(<span class="fu">mean</span>(fertility_rate, <span class="at">na.rm =</span> T), <span class="dv">2</span>),</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">mean_pct_prenatal_care =</span> <span class="fu">round</span>(<span class="fu">mean</span>(pct_prenatal_care_first_trimester), <span class="dv">2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 7
+  pop_category       mean_pov_rate mean_oud_rate mean_unemployment_rate
+  &lt;chr&gt;                      &lt;dbl&gt;         &lt;dbl&gt;                  &lt;dbl&gt;
+1 Large (500K+)               7.09          47.2                   3.67
+2 Medium (100K-500K)          7.8           67.8                   4.45
+3 Small (50K-100K)            8.35          86.3                   5   
+4 Very Small (&lt;50K)           8.19         108.                    4.91
+# ℹ 3 more variables: mean_pct_fair_poor_health &lt;dbl&gt;,
+#   mean_fertility_rate &lt;dbl&gt;, mean_pct_prenatal_care &lt;dbl&gt;</code></pre>
+</div>
+</div>
+</section>
+<section id="preliminary-models" class="level2">
+<h2 class="anchored" data-anchor-id="preliminary-models">Preliminary models</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Base model #</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>model.lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(rate_of_pregnant_women_with_oud_diagnosis <span class="sc">~</span> </span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>                 pct_black <span class="sc">+</span> pct_hispanic <span class="sc">+</span> </span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>                 unemployment_rate_2019 <span class="sc">+</span> </span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>                 median_household_income_2022 <span class="sc">+</span> </span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>                 pct_prenatal_care_first_trimester <span class="sc">+</span> </span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>                 fertility_rate <span class="sc">+</span> pct_fair_poor_health, </span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">data =</span> appp_data)</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model.lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = rate_of_pregnant_women_with_oud_diagnosis ~ pct_black + 
+    pct_hispanic + unemployment_rate_2019 + median_household_income_2022 + 
+    pct_prenatal_care_first_trimester + fertility_rate + pct_fair_poor_health, 
+    data = appp_data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-46.329 -11.489   1.591  10.798  72.304 
+
+Coefficients:
+                                    Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)                       -2.091e+00  8.491e+01  -0.025   0.9805    
+pct_black                         -1.734e+00  8.412e-01  -2.062   0.0453 *  
+pct_hispanic                      -3.212e+00  6.754e-01  -4.756 2.24e-05 ***
+unemployment_rate_2019             1.079e+01  7.219e+00   1.495   0.1422    
+median_household_income_2022      -6.662e-05  3.804e-04  -0.175   0.8618    
+pct_prenatal_care_first_trimester  9.267e-01  6.385e-01   1.451   0.1539    
+fertility_rate                    -3.082e-01  5.777e-01  -0.533   0.5965    
+pct_fair_poor_health               5.437e-01  1.059e+00   0.513   0.6103    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 23.21 on 43 degrees of freedom
+  (16 observations deleted due to missingness)
+Multiple R-squared:  0.6096,    Adjusted R-squared:  0.5461 
+F-statistic: 9.592 on 7 and 43 DF,  p-value: 4.028e-07</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Base model with more variables #</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>model2.lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(rate_of_pregnant_women_with_oud_diagnosis <span class="sc">~</span> </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>                  rural_urban_continuum_code_2023 <span class="sc">+</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>                  pct_black <span class="sc">+</span> pct_hispanic <span class="sc">+</span> </span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>                  unemployment_rate_2022 <span class="sc">+</span> </span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>                  median_household_income_2022 <span class="sc">+</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>                  pct_prenatal_care_first_trimester <span class="sc">+</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>                  pct_low_birth_weight <span class="sc">+</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>                  pct_cesarean_section <span class="sc">+</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>                  fertility_rate <span class="sc">+</span> </span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>                  pct_fair_poor_health,</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> appp_data)</span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model2.lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = rate_of_pregnant_women_with_oud_diagnosis ~ rural_urban_continuum_code_2023 + 
+    pct_black + pct_hispanic + unemployment_rate_2022 + median_household_income_2022 + 
+    pct_prenatal_care_first_trimester + pct_low_birth_weight + 
+    pct_cesarean_section + fertility_rate + pct_fair_poor_health, 
+    data = appp_data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-46.252 -10.594   3.132   9.869  65.555 
+
+Coefficients:
+                                    Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)                       -5.751e+01  8.567e+01  -0.671   0.5059    
+rural_urban_continuum_code_2023    1.377e+00  2.174e+00   0.634   0.5299    
+pct_black                         -2.138e+00  9.864e-01  -2.167   0.0362 *  
+pct_hispanic                      -2.914e+00  6.656e-01  -4.378 8.38e-05 ***
+unemployment_rate_2022             2.041e+01  8.845e+00   2.307   0.0263 *  
+median_household_income_2022       3.271e-04  4.054e-04   0.807   0.4245    
+pct_prenatal_care_first_trimester  1.001e+00  6.959e-01   1.438   0.1581    
+pct_low_birth_weight               2.721e+00  5.525e+00   0.492   0.6251    
+pct_cesarean_section              -1.175e+00  1.585e+00  -0.742   0.4627    
+fertility_rate                    -2.379e-01  6.130e-01  -0.388   0.7001    
+pct_fair_poor_health               2.970e-02  1.173e+00   0.025   0.9799    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 22.43 on 40 degrees of freedom
+  (16 observations deleted due to missingness)
+Multiple R-squared:  0.6607,    Adjusted R-squared:  0.5759 
+F-statistic: 7.789 on 10 and 40 DF,  p-value: 9.152e-07</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Interaction between urban area and pct_black #</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>model3.lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(rate_of_pregnant_women_with_oud_diagnosis <span class="sc">~</span> </span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>                  rural_urban_continuum_code_2023 <span class="sc">*</span> pct_black <span class="sc">+</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>                  pct_hispanic <span class="sc">+</span> </span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>                  unemployment_rate_2022 <span class="sc">+</span> </span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>                  median_household_income_2022 <span class="sc">+</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>                  pct_prenatal_care_first_trimester <span class="sc">+</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>                  pct_low_birth_weight <span class="sc">+</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>                  fertility_rate <span class="sc">+</span> </span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>                  pct_fair_poor_health <span class="sc">+</span> total_population,</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> appp_data)</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model3.lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = rate_of_pregnant_women_with_oud_diagnosis ~ rural_urban_continuum_code_2023 * 
+    pct_black + pct_hispanic + unemployment_rate_2022 + median_household_income_2022 + 
+    pct_prenatal_care_first_trimester + pct_low_birth_weight + 
+    fertility_rate + pct_fair_poor_health + total_population, 
+    data = appp_data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-45.618  -7.877   1.699  10.143  61.750 
+
+Coefficients:
+                                            Estimate Std. Error t value
+(Intercept)                               -7.229e+01  8.560e+01  -0.844
+rural_urban_continuum_code_2023            2.914e+00  2.667e+00   1.093
+pct_black                                 -6.107e-01  1.651e+00  -0.370
+pct_hispanic                              -2.684e+00  7.480e-01  -3.589
+unemployment_rate_2022                     2.000e+01  9.217e+00   2.170
+median_household_income_2022               4.837e-04  4.478e-04   1.080
+pct_prenatal_care_first_trimester          7.293e-01  7.212e-01   1.011
+pct_low_birth_weight                       2.822e+00  5.289e+00   0.533
+fertility_rate                            -4.939e-01  6.887e-01  -0.717
+pct_fair_poor_health                       1.889e-01  1.194e+00   0.158
+total_population                          -2.093e-05  2.451e-05  -0.854
+rural_urban_continuum_code_2023:pct_black -7.073e-01  7.168e-01  -0.987
+                                          Pr(&gt;|t|)    
+(Intercept)                               0.403572    
+rural_urban_continuum_code_2023           0.281227    
+pct_black                                 0.713540    
+pct_hispanic                              0.000916 ***
+unemployment_rate_2022                    0.036148 *  
+median_household_income_2022              0.286679    
+pct_prenatal_care_first_trimester         0.318107    
+pct_low_birth_weight                      0.596748    
+fertility_rate                            0.477553    
+pct_fair_poor_health                      0.875045    
+total_population                          0.398276    
+rural_urban_continuum_code_2023:pct_black 0.329833    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 22.53 on 39 degrees of freedom
+  (16 observations deleted due to missingness)
+Multiple R-squared:  0.6664,    Adjusted R-squared:  0.5723 
+F-statistic: 7.083 on 11 and 39 DF,  p-value: 1.99e-06</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Logarithmic transformation on median household income &amp; total population #</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>model4.lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(rate_of_pregnant_women_with_oud_diagnosis <span class="sc">~</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>                  rural_urban_continuum_code_2023 <span class="sc">*</span> pct_black <span class="sc">+</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>                  pct_hispanic <span class="sc">+</span> unemployment_rate_2022 <span class="sc">+</span> </span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">log</span>(median_household_income_2022) <span class="sc">+</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>                  pct_prenatal_care_first_trimester <span class="sc">+</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>                  pct_low_birth_weight <span class="sc">+</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>                  fertility_rate <span class="sc">+</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>                  pct_fair_poor_health <span class="sc">+</span> <span class="fu">log</span>(total_population),</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> appp_data)</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model4.lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = rate_of_pregnant_women_with_oud_diagnosis ~ rural_urban_continuum_code_2023 * 
+    pct_black + pct_hispanic + unemployment_rate_2022 + log(median_household_income_2022) + 
+    pct_prenatal_care_first_trimester + pct_low_birth_weight + 
+    fertility_rate + pct_fair_poor_health + log(total_population), 
+    data = appp_data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-50.353 -11.137   1.969  11.137  60.119 
+
+Coefficients:
+                                           Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept)                               -352.4556   395.5614  -0.891  0.37838
+rural_urban_continuum_code_2023              1.5030     2.9478   0.510  0.61302
+pct_black                                   -0.6217     1.5047  -0.413  0.68173
+pct_hispanic                                -2.5269     0.7582  -3.333  0.00189
+unemployment_rate_2022                      18.5452     9.5752   1.937  0.06004
+log(median_household_income_2022)           38.5640    34.1196   1.130  0.26527
+pct_prenatal_care_first_trimester            0.6746     0.7216   0.935  0.35561
+pct_low_birth_weight                         3.1498     5.2355   0.602  0.55090
+fertility_rate                              -0.5113     0.6783  -0.754  0.45546
+pct_fair_poor_health                         0.1799     1.1649   0.154  0.87805
+log(total_population)                       -9.1471     7.2918  -1.254  0.21715
+rural_urban_continuum_code_2023:pct_black   -0.6326     0.6621  -0.955  0.34524
+                                            
+(Intercept)                                 
+rural_urban_continuum_code_2023             
+pct_black                                   
+pct_hispanic                              **
+unemployment_rate_2022                    . 
+log(median_household_income_2022)           
+pct_prenatal_care_first_trimester           
+pct_low_birth_weight                        
+fertility_rate                              
+pct_fair_poor_health                        
+log(total_population)                       
+rural_urban_continuum_code_2023:pct_black   
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 22.25 on 39 degrees of freedom
+  (16 observations deleted due to missingness)
+Multiple R-squared:  0.6745,    Adjusted R-squared:  0.5827 
+F-statistic: 7.348 on 11 and 39 DF,  p-value: 1.296e-06</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Adding poverty rate as an interaction term with rural/urban continuum #</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>model5.lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(rate_of_pregnant_women_with_oud_diagnosis <span class="sc">~</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>                  poverty_rate <span class="sc">*</span> rural_urban_continuum_code_2023 <span class="sc">+</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>                  pct_black <span class="sc">+</span> pct_hispanic <span class="sc">+</span> </span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>                  unemployment_rate_2022 <span class="sc">+</span> </span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">log</span>(median_household_income_2022) <span class="sc">+</span></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>                  pct_prenatal_care_first_trimester <span class="sc">+</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>                  pct_low_birth_weight <span class="sc">+</span> fertility_rate,</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> appp_data)</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model5.lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = rate_of_pregnant_women_with_oud_diagnosis ~ poverty_rate * 
+    rural_urban_continuum_code_2023 + pct_black + pct_hispanic + 
+    unemployment_rate_2022 + log(median_household_income_2022) + 
+    pct_prenatal_care_first_trimester + pct_low_birth_weight + 
+    fertility_rate, data = appp_data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-43.604 -11.283  -0.744  10.095  51.279 
+
+Coefficients:
+                                              Estimate Std. Error t value
+(Intercept)                                  -414.1270   511.8434  -0.809
+poverty_rate                                    1.5971     4.9410   0.323
+rural_urban_continuum_code_2023                 9.6790     8.3174   1.164
+pct_black                                      -2.0924     1.0351  -2.021
+pct_hispanic                                   -3.0376     0.7155  -4.245
+unemployment_rate_2022                         23.0080     8.5767   2.683
+log(median_household_income_2022)              31.7831    43.0094   0.739
+pct_prenatal_care_first_trimester               0.6313     0.6941   0.909
+pct_low_birth_weight                            1.1021     4.7429   0.232
+fertility_rate                                 -0.1053     0.6123  -0.172
+poverty_rate:rural_urban_continuum_code_2023   -1.0230     1.0043  -1.019
+                                             Pr(&gt;|t|)    
+(Intercept)                                  0.423250    
+poverty_rate                                 0.748200    
+rural_urban_continuum_code_2023              0.251437    
+pct_black                                    0.049970 *  
+pct_hispanic                                 0.000126 ***
+unemployment_rate_2022                       0.010568 *  
+log(median_household_income_2022)            0.464233    
+pct_prenatal_care_first_trimester            0.368550    
+pct_low_birth_weight                         0.817428    
+fertility_rate                               0.864387    
+poverty_rate:rural_urban_continuum_code_2023 0.314531    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 22.02 on 40 degrees of freedom
+  (16 observations deleted due to missingness)
+Multiple R-squared:  0.6732,    Adjusted R-squared:  0.5915 
+F-statistic:  8.24 on 10 and 40 DF,  p-value: 4.626e-07</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Model with pct_black and pct_hispanic interaction #</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>model8.lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(rate_of_pregnant_women_with_oud_diagnosis <span class="sc">~</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>                  rural_urban_continuum_code_2023 <span class="sc">+</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>                  pct_black <span class="sc">*</span> pct_hispanic <span class="sc">+</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>                  unemployment_rate_2022 <span class="sc">+</span> </span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">log</span>(median_household_income_2022) <span class="sc">+</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>                  pct_prenatal_care_first_trimester <span class="sc">+</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>                  pct_low_birth_weight <span class="sc">+</span> fertility_rate,</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> appp_data)</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model8.lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = rate_of_pregnant_women_with_oud_diagnosis ~ rural_urban_continuum_code_2023 + 
+    pct_black * pct_hispanic + unemployment_rate_2022 + log(median_household_income_2022) + 
+    pct_prenatal_care_first_trimester + pct_low_birth_weight + 
+    fertility_rate, data = appp_data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-44.407 -10.856   0.681  13.092  64.666 
+
+Coefficients:
+                                   Estimate Std. Error t value Pr(&gt;|t|)   
+(Intercept)                       -239.2560   376.6901  -0.635  0.52886   
+rural_urban_continuum_code_2023      0.7315     2.1912   0.334  0.74020   
+pct_black                           -3.5535     1.5083  -2.356  0.02334 * 
+pct_hispanic                        -4.6875     1.5068  -3.111  0.00339 **
+unemployment_rate_2022              15.9830     8.6572   1.846  0.07209 . 
+log(median_household_income_2022)   19.3168    31.3313   0.617  0.54095   
+pct_prenatal_care_first_trimester    0.8243     0.6693   1.232  0.22511   
+pct_low_birth_weight                 2.0383     4.7460   0.429  0.66982   
+fertility_rate                      -0.2062     0.5904  -0.349  0.72866   
+pct_black:pct_hispanic               0.2097     0.1684   1.245  0.22007   
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 21.88 on 41 degrees of freedom
+  (16 observations deleted due to missingness)
+Multiple R-squared:  0.669, Adjusted R-squared:  0.5963 
+F-statistic: 9.207 on 9 and 41 DF,  p-value: 1.834e-07</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Polynomial terms for pct_black #</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>model6.lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(rate_of_pregnant_women_with_oud_diagnosis <span class="sc">~</span> </span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>                  rural_urban_continuum_code_2023 <span class="sc">+</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>                  pct_black <span class="sc">+</span> <span class="fu">I</span>(pct_black<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>                  pct_hispanic <span class="sc">+</span> unemployment_rate_2022 <span class="sc">+</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">log</span>(median_household_income_2022) <span class="sc">+</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>                  pct_prenatal_care_first_trimester <span class="sc">+</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>                  fertility_rate <span class="sc">+</span> pct_fair_poor_health,</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> appp_data)</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model6.lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = rate_of_pregnant_women_with_oud_diagnosis ~ rural_urban_continuum_code_2023 + 
+    pct_black + I(pct_black^2) + pct_hispanic + unemployment_rate_2022 + 
+    log(median_household_income_2022) + pct_prenatal_care_first_trimester + 
+    fertility_rate + pct_fair_poor_health, data = appp_data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-49.460  -7.605   2.191   9.278  64.083 
+
+Coefficients:
+                                   Estimate Std. Error t value Pr(&gt;|t|)   
+(Intercept)                       -273.5538   358.8902  -0.762  0.45029   
+rural_urban_continuum_code_2023      0.7977     2.1160   0.377  0.70812   
+pct_black                           -5.9261     2.8553  -2.075  0.04425 * 
+I(pct_black^2)                       0.1745     0.1210   1.443  0.15667   
+pct_hispanic                        -2.4430     0.7338  -3.329  0.00185 **
+unemployment_rate_2022              22.9097     7.6817   2.982  0.00480 **
+log(median_household_income_2022)   21.4410    29.5955   0.724  0.47289   
+pct_prenatal_care_first_trimester    0.9514     0.6052   1.572  0.12366   
+fertility_rate                      -0.2988     0.5648  -0.529  0.59965   
+pct_fair_poor_health                -0.4453     1.0805  -0.412  0.68235   
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 21.76 on 41 degrees of freedom
+  (16 observations deleted due to missingness)
+Multiple R-squared:  0.6727,    Adjusted R-squared:  0.6009 
+F-statistic: 9.365 on 9 and 41 DF,  p-value: 1.479e-07</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Healthcare access interaction #</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>model7.lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(rate_of_pregnant_women_with_oud_diagnosis <span class="sc">~</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>                  rural_urban_continuum_code_2023 <span class="sc">*</span> pct_prenatal_care_first_trimester <span class="sc">+</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>                  pct_black <span class="sc">+</span> pct_hispanic <span class="sc">+</span> unemployment_rate_2022 <span class="sc">*</span> <span class="fu">log</span>(median_household_income_2022) <span class="sc">+</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>                  pct_prenatal_care_first_trimester <span class="sc">+</span> <span class="fu">I</span>(pct_prenatal_care_first_trimester<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>                  fertility_rate,</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> appp_data)</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model7.lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = rate_of_pregnant_women_with_oud_diagnosis ~ rural_urban_continuum_code_2023 * 
+    pct_prenatal_care_first_trimester + pct_black + pct_hispanic + 
+    unemployment_rate_2022 * log(median_household_income_2022) + 
+    pct_prenatal_care_first_trimester + I(pct_prenatal_care_first_trimester^2) + 
+    fertility_rate, data = appp_data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-44.613  -9.218   2.852  12.721  30.701 
+
+Coefficients:
+                                                                    Estimate
+(Intercept)                                                        605.89467
+rural_urban_continuum_code_2023                                    -58.19739
+pct_prenatal_care_first_trimester                                  -21.20426
+pct_black                                                           -1.99383
+pct_hispanic                                                        -3.12494
+unemployment_rate_2022                                              -4.23999
+log(median_household_income_2022)                                   24.40304
+I(pct_prenatal_care_first_trimester^2)                               0.13159
+fertility_rate                                                      -0.52738
+rural_urban_continuum_code_2023:pct_prenatal_care_first_trimester    0.81365
+unemployment_rate_2022:log(median_household_income_2022)             2.43098
+                                                                  Std. Error
+(Intercept)                                                       1145.06403
+rural_urban_continuum_code_2023                                     19.13387
+pct_prenatal_care_first_trimester                                    9.86222
+pct_black                                                            0.75724
+pct_hispanic                                                         0.59603
+unemployment_rate_2022                                             277.23804
+log(median_household_income_2022)                                   97.88730
+I(pct_prenatal_care_first_trimester^2)                               0.06756
+fertility_rate                                                       0.51186
+rural_urban_continuum_code_2023:pct_prenatal_care_first_trimester    0.25742
+unemployment_rate_2022:log(median_household_income_2022)            24.99694
+                                                                  t value
+(Intercept)                                                         0.529
+rural_urban_continuum_code_2023                                    -3.042
+pct_prenatal_care_first_trimester                                  -2.150
+pct_black                                                          -2.633
+pct_hispanic                                                       -5.243
+unemployment_rate_2022                                             -0.015
+log(median_household_income_2022)                                   0.249
+I(pct_prenatal_care_first_trimester^2)                              1.948
+fertility_rate                                                     -1.030
+rural_urban_continuum_code_2023:pct_prenatal_care_first_trimester   3.161
+unemployment_rate_2022:log(median_household_income_2022)            0.097
+                                                                  Pr(&gt;|t|)    
+(Intercept)                                                        0.59964    
+rural_urban_continuum_code_2023                                    0.00414 ** 
+pct_prenatal_care_first_trimester                                  0.03765 *  
+pct_black                                                          0.01197 *  
+pct_hispanic                                                      5.44e-06 ***
+unemployment_rate_2022                                             0.98787    
+log(median_household_income_2022)                                  0.80441    
+I(pct_prenatal_care_first_trimester^2)                             0.05848 .  
+fertility_rate                                                     0.30905    
+rural_urban_continuum_code_2023:pct_prenatal_care_first_trimester  0.00300 ** 
+unemployment_rate_2022:log(median_household_income_2022)           0.92301    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 19.53 on 40 degrees of freedom
+  (16 observations deleted due to missingness)
+Multiple R-squared:  0.7428,    Adjusted R-squared:  0.6784 
+F-statistic: 11.55 on 10 and 40 DF,  p-value: 5.569e-09</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="do">### Model 7 with highest R^2 value, also shows significance in 5 different variables </span><span class="al">###</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>model7a.lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(rate_of_pregnant_women_with_oud_diagnosis <span class="sc">~</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>                   rural_urban_continuum_code_2023 <span class="sc">*</span> pct_prenatal_care_first_trimester <span class="sc">+</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>                   pct_black <span class="sc">+</span> pct_hispanic <span class="sc">+</span> unemployment_rate_2022 <span class="sc">*</span> </span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>                   <span class="fu">log</span>(median_household_income_2022) <span class="sc">+</span> fertility_rate <span class="sc">+</span> </span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>                   pct_fair_poor_health <span class="sc">+</span> pct_low_birth_weight <span class="sc">+</span> pct_cesarean_section, </span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> appp_data)</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model7a.lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = rate_of_pregnant_women_with_oud_diagnosis ~ rural_urban_continuum_code_2023 * 
+    pct_prenatal_care_first_trimester + pct_black + pct_hispanic + 
+    unemployment_rate_2022 * log(median_household_income_2022) + 
+    fertility_rate + pct_fair_poor_health + pct_low_birth_weight + 
+    pct_cesarean_section, data = appp_data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-43.365  -9.208   0.924  12.506  36.909 
+
+Coefficients:
+                                                                   Estimate
+(Intercept)                                                        222.5005
+rural_urban_continuum_code_2023                                    -57.6198
+pct_prenatal_care_first_trimester                                   -2.0667
+pct_black                                                           -2.1451
+pct_hispanic                                                        -3.1453
+unemployment_rate_2022                                             -69.8462
+log(median_household_income_2022)                                   -2.4362
+fertility_rate                                                      -0.3230
+pct_fair_poor_health                                                -0.4220
+pct_low_birth_weight                                                 0.2414
+pct_cesarean_section                                                -0.6137
+rural_urban_continuum_code_2023:pct_prenatal_care_first_trimester    0.8007
+unemployment_rate_2022:log(median_household_income_2022)             8.4484
+                                                                  Std. Error
+(Intercept)                                                        1231.6332
+rural_urban_continuum_code_2023                                      20.8619
+pct_prenatal_care_first_trimester                                     1.2639
+pct_black                                                             0.9852
+pct_hispanic                                                          0.6494
+unemployment_rate_2022                                              312.1953
+log(median_household_income_2022)                                   107.9588
+fertility_rate                                                        0.5710
+pct_fair_poor_health                                                  1.1112
+pct_low_birth_weight                                                  5.5151
+pct_cesarean_section                                                  1.5224
+rural_urban_continuum_code_2023:pct_prenatal_care_first_trimester     0.2813
+unemployment_rate_2022:log(median_household_income_2022)             28.1272
+                                                                  t value
+(Intercept)                                                         0.181
+rural_urban_continuum_code_2023                                    -2.762
+pct_prenatal_care_first_trimester                                  -1.635
+pct_black                                                          -2.177
+pct_hispanic                                                       -4.844
+unemployment_rate_2022                                             -0.224
+log(median_household_income_2022)                                  -0.023
+fertility_rate                                                     -0.566
+pct_fair_poor_health                                               -0.380
+pct_low_birth_weight                                                0.044
+pct_cesarean_section                                               -0.403
+rural_urban_continuum_code_2023:pct_prenatal_care_first_trimester   2.846
+unemployment_rate_2022:log(median_household_income_2022)            0.300
+                                                                  Pr(&gt;|t|)    
+(Intercept)                                                        0.85760    
+rural_urban_continuum_code_2023                                    0.00880 ** 
+pct_prenatal_care_first_trimester                                  0.11029    
+pct_black                                                          0.03573 *  
+pct_hispanic                                                      2.16e-05 ***
+unemployment_rate_2022                                             0.82417    
+log(median_household_income_2022)                                  0.98211    
+fertility_rate                                                     0.57486    
+pct_fair_poor_health                                               0.70623    
+pct_low_birth_weight                                               0.96532    
+pct_cesarean_section                                               0.68913    
+rural_urban_continuum_code_2023:pct_prenatal_care_first_trimester  0.00709 ** 
+unemployment_rate_2022:log(median_household_income_2022)           0.76554    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 20.86 on 38 degrees of freedom
+  (16 observations deleted due to missingness)
+Multiple R-squared:  0.7212,    Adjusted R-squared:  0.6331 
+F-statistic:  8.19 on 12 and 38 DF,  p-value: 2.649e-07</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>model7b.lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(rate_of_pregnant_women_with_oud_diagnosis <span class="sc">~</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>                   rural_urban_continuum_code_2023 <span class="sc">*</span> pct_prenatal_care_first_trimester <span class="sc">+</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>                   pct_black <span class="sc">+</span> pct_hispanic <span class="sc">+</span> unemployment_rate_2022 <span class="sc">*</span> </span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>                   <span class="fu">log</span>(median_household_income_2022) <span class="sc">+</span> fertility_rate <span class="sc">+</span> </span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>                   pct_fair_poor_health <span class="sc">+</span> pct_low_birth_weight <span class="sc">*</span> pct_cesarean_section <span class="sc">+</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>                   poverty_rate <span class="sc">*</span> rural_urban_continuum_code_2023, </span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> appp_data)</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model7b.lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = rate_of_pregnant_women_with_oud_diagnosis ~ rural_urban_continuum_code_2023 * 
+    pct_prenatal_care_first_trimester + pct_black + pct_hispanic + 
+    unemployment_rate_2022 * log(median_household_income_2022) + 
+    fertility_rate + pct_fair_poor_health + pct_low_birth_weight * 
+    pct_cesarean_section + poverty_rate * rural_urban_continuum_code_2023, 
+    data = appp_data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-43.926  -8.696   0.483  11.606  34.816 
+
+Coefficients:
+                                                                   Estimate
+(Intercept)                                                         98.3973
+rural_urban_continuum_code_2023                                    -56.4988
+pct_prenatal_care_first_trimester                                   -2.1237
+pct_black                                                           -1.9767
+pct_hispanic                                                        -3.1332
+unemployment_rate_2022                                             -55.5563
+log(median_household_income_2022)                                   -4.3556
+fertility_rate                                                      -0.3644
+pct_fair_poor_health                                                -0.4563
+pct_low_birth_weight                                                19.7265
+pct_cesarean_section                                                 4.6418
+poverty_rate                                                         0.2838
+rural_urban_continuum_code_2023:pct_prenatal_care_first_trimester    0.8042
+unemployment_rate_2022:log(median_household_income_2022)             7.1329
+pct_low_birth_weight:pct_cesarean_section                           -0.6726
+rural_urban_continuum_code_2023:poverty_rate                        -0.1845
+                                                                  Std. Error
+(Intercept)                                                        1346.1384
+rural_urban_continuum_code_2023                                      30.5715
+pct_prenatal_care_first_trimester                                     1.4173
+pct_black                                                             1.1331
+pct_hispanic                                                          0.7448
+unemployment_rate_2022                                              328.7247
+log(median_household_income_2022)                                   113.6842
+fertility_rate                                                        0.6478
+pct_fair_poor_health                                                  1.1536
+pct_low_birth_weight                                                 40.5114
+pct_cesarean_section                                                 10.8939
+poverty_rate                                                          5.7011
+rural_urban_continuum_code_2023:pct_prenatal_care_first_trimester     0.3451
+unemployment_rate_2022:log(median_household_income_2022)             29.6340
+pct_low_birth_weight:pct_cesarean_section                             1.3816
+rural_urban_continuum_code_2023:poverty_rate                          1.1904
+                                                                  t value
+(Intercept)                                                         0.073
+rural_urban_continuum_code_2023                                    -1.848
+pct_prenatal_care_first_trimester                                  -1.498
+pct_black                                                          -1.745
+pct_hispanic                                                       -4.207
+unemployment_rate_2022                                             -0.169
+log(median_household_income_2022)                                  -0.038
+fertility_rate                                                     -0.563
+pct_fair_poor_health                                               -0.396
+pct_low_birth_weight                                                0.487
+pct_cesarean_section                                                0.426
+poverty_rate                                                        0.050
+rural_urban_continuum_code_2023:pct_prenatal_care_first_trimester   2.330
+unemployment_rate_2022:log(median_household_income_2022)            0.241
+pct_low_birth_weight:pct_cesarean_section                          -0.487
+rural_urban_continuum_code_2023:poverty_rate                       -0.155
+                                                                  Pr(&gt;|t|)    
+(Intercept)                                                       0.942146    
+rural_urban_continuum_code_2023                                   0.073054 .  
+pct_prenatal_care_first_trimester                                 0.142982    
+pct_black                                                         0.089844 .  
+pct_hispanic                                                      0.000171 ***
+unemployment_rate_2022                                            0.866765    
+log(median_household_income_2022)                                 0.969656    
+fertility_rate                                                    0.577292    
+pct_fair_poor_health                                              0.694837    
+pct_low_birth_weight                                              0.629339    
+pct_cesarean_section                                              0.672649    
+poverty_rate                                                      0.960579    
+rural_urban_continuum_code_2023:pct_prenatal_care_first_trimester 0.025672 *  
+unemployment_rate_2022:log(median_household_income_2022)          0.811193    
+pct_low_birth_weight:pct_cesarean_section                         0.629395    
+rural_urban_continuum_code_2023:poverty_rate                      0.877716    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 21.62 on 35 degrees of freedom
+  (16 observations deleted due to missingness)
+Multiple R-squared:  0.7241,    Adjusted R-squared:  0.6059 
+F-statistic: 6.125 on 15 and 35 DF,  p-value: 5.086e-06</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>model7c.lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(rate_of_pregnant_women_with_oud_diagnosis <span class="sc">~</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>                  rural_urban_continuum_code_2023 <span class="sc">*</span> pct_prenatal_care_first_trimester <span class="sc">+</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>                  pct_black <span class="sc">+</span> <span class="fu">I</span>(pct_black<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>                  pct_hispanic <span class="sc">+</span> <span class="fu">I</span>(pct_hispanic<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>                  unemployment_rate_2022 <span class="sc">*</span> <span class="fu">log</span>(median_household_income_2022) <span class="sc">+</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>                  pct_prenatal_care_first_trimester <span class="sc">+</span> <span class="fu">I</span>(pct_prenatal_care_first_trimester<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>                  fertility_rate <span class="sc">+</span> <span class="fu">I</span>(fertility_rate<span class="sc">^</span><span class="dv">2</span>),</span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> appp_data)</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model7c.lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = rate_of_pregnant_women_with_oud_diagnosis ~ rural_urban_continuum_code_2023 * 
+    pct_prenatal_care_first_trimester + pct_black + I(pct_black^2) + 
+    pct_hispanic + I(pct_hispanic^2) + unemployment_rate_2022 * 
+    log(median_household_income_2022) + pct_prenatal_care_first_trimester + 
+    I(pct_prenatal_care_first_trimester^2) + fertility_rate + 
+    I(fertility_rate^2), data = appp_data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-39.517  -7.256   3.111  11.207  26.680 
+
+Coefficients:
+                                                                    Estimate
+(Intercept)                                                       -102.17276
+rural_urban_continuum_code_2023                                    -69.41773
+pct_prenatal_care_first_trimester                                  -17.37669
+pct_black                                                           -4.25917
+I(pct_black^2)                                                       0.11764
+pct_hispanic                                                        -7.65377
+I(pct_hispanic^2)                                                    0.20869
+unemployment_rate_2022                                             124.28636
+log(median_household_income_2022)                                   85.28099
+I(pct_prenatal_care_first_trimester^2)                               0.10055
+fertility_rate                                                      -2.46226
+I(fertility_rate^2)                                                  0.01689
+rural_urban_continuum_code_2023:pct_prenatal_care_first_trimester    0.95107
+unemployment_rate_2022:log(median_household_income_2022)            -9.26045
+                                                                  Std. Error
+(Intercept)                                                       1141.52270
+rural_urban_continuum_code_2023                                     18.24768
+pct_prenatal_care_first_trimester                                    9.52742
+pct_black                                                            2.45248
+I(pct_black^2)                                                       0.10619
+pct_hispanic                                                         1.89408
+I(pct_hispanic^2)                                                    0.07189
+unemployment_rate_2022                                             275.83277
+log(median_household_income_2022)                                   97.82415
+I(pct_prenatal_care_first_trimester^2)                               0.06496
+fertility_rate                                                       3.37432
+I(fertility_rate^2)                                                  0.03236
+rural_urban_continuum_code_2023:pct_prenatal_care_first_trimester    0.24602
+unemployment_rate_2022:log(median_household_income_2022)            24.79601
+                                                                  t value
+(Intercept)                                                        -0.090
+rural_urban_continuum_code_2023                                    -3.804
+pct_prenatal_care_first_trimester                                  -1.824
+pct_black                                                          -1.737
+I(pct_black^2)                                                      1.108
+pct_hispanic                                                       -4.041
+I(pct_hispanic^2)                                                   2.903
+unemployment_rate_2022                                              0.451
+log(median_household_income_2022)                                   0.872
+I(pct_prenatal_care_first_trimester^2)                              1.548
+fertility_rate                                                     -0.730
+I(fertility_rate^2)                                                 0.522
+rural_urban_continuum_code_2023:pct_prenatal_care_first_trimester   3.866
+unemployment_rate_2022:log(median_household_income_2022)           -0.373
+                                                                  Pr(&gt;|t|)    
+(Intercept)                                                       0.929163    
+rural_urban_continuum_code_2023                                   0.000517 ***
+pct_prenatal_care_first_trimester                                 0.076258 .  
+pct_black                                                         0.090764 .  
+I(pct_black^2)                                                    0.275067    
+pct_hispanic                                                      0.000258 ***
+I(pct_hispanic^2)                                                 0.006198 ** 
+unemployment_rate_2022                                            0.654917    
+log(median_household_income_2022)                                 0.388951    
+I(pct_prenatal_care_first_trimester^2)                            0.130175    
+fertility_rate                                                    0.470165    
+I(fertility_rate^2)                                               0.604781    
+rural_urban_continuum_code_2023:pct_prenatal_care_first_trimester 0.000432 ***
+unemployment_rate_2022:log(median_household_income_2022)          0.710934    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 17.67 on 37 degrees of freedom
+  (16 observations deleted due to missingness)
+Multiple R-squared:  0.8052,    Adjusted R-squared:  0.7368 
+F-statistic: 11.77 on 13 and 37 DF,  p-value: 1.819e-09</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>model7d.lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(rate_of_pregnant_women_with_oud_diagnosis <span class="sc">~</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>                   rural_urban_continuum_code_2023 <span class="sc">*</span> pct_prenatal_care_first_trimester <span class="sc">+</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>                   pct_black <span class="sc">+</span> <span class="fu">I</span>(pct_black<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span> pct_hispanic <span class="sc">+</span> <span class="fu">I</span>(pct_hispanic<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>                   unemployment_rate_2022 <span class="sc">*</span> <span class="fu">log</span>(median_household_income_2022) <span class="sc">+</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>                   pct_prenatal_care_first_trimester <span class="sc">+</span> <span class="fu">I</span>(pct_prenatal_care_first_trimester<span class="sc">^</span><span class="dv">2</span>), </span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> appp_data)</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model7d.lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = rate_of_pregnant_women_with_oud_diagnosis ~ rural_urban_continuum_code_2023 * 
+    pct_prenatal_care_first_trimester + pct_black + I(pct_black^2) + 
+    pct_hispanic + I(pct_hispanic^2) + unemployment_rate_2022 * 
+    log(median_household_income_2022) + pct_prenatal_care_first_trimester + 
+    I(pct_prenatal_care_first_trimester^2), data = appp_data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-31.145  -8.390   2.645  10.994  29.427 
+
+Coefficients:
+                                                                    Estimate
+(Intercept)                                                        118.73244
+rural_urban_continuum_code_2023                                    -68.49451
+pct_prenatal_care_first_trimester                                  -16.24846
+pct_black                                                           -3.49051
+I(pct_black^2)                                                       0.08270
+pct_hispanic                                                        -7.88192
+I(pct_hispanic^2)                                                    0.20975
+unemployment_rate_2022                                              29.63609
+log(median_household_income_2022)                                   53.80062
+I(pct_prenatal_care_first_trimester^2)                               0.09383
+rural_urban_continuum_code_2023:pct_prenatal_care_first_trimester    0.93537
+unemployment_rate_2022:log(median_household_income_2022)            -0.76473
+                                                                  Std. Error
+(Intercept)                                                       1099.84899
+rural_urban_continuum_code_2023                                     18.14916
+pct_prenatal_care_first_trimester                                    8.86656
+pct_black                                                            2.41343
+I(pct_black^2)                                                       0.10436
+pct_hispanic                                                         1.90133
+I(pct_hispanic^2)                                                    0.07234
+unemployment_rate_2022                                             267.89173
+log(median_household_income_2022)                                   94.46030
+I(pct_prenatal_care_first_trimester^2)                               0.06143
+rural_urban_continuum_code_2023:pct_prenatal_care_first_trimester    0.24431
+unemployment_rate_2022:log(median_household_income_2022)            24.11996
+                                                                  t value
+(Intercept)                                                         0.108
+rural_urban_continuum_code_2023                                    -3.774
+pct_prenatal_care_first_trimester                                  -1.833
+pct_black                                                          -1.446
+I(pct_black^2)                                                      0.792
+pct_hispanic                                                       -4.145
+I(pct_hispanic^2)                                                   2.899
+unemployment_rate_2022                                              0.111
+log(median_household_income_2022)                                   0.570
+I(pct_prenatal_care_first_trimester^2)                              1.527
+rural_urban_continuum_code_2023:pct_prenatal_care_first_trimester   3.829
+unemployment_rate_2022:log(median_household_income_2022)           -0.032
+                                                                  Pr(&gt;|t|)    
+(Intercept)                                                       0.914586    
+rural_urban_continuum_code_2023                                   0.000535 ***
+pct_prenatal_care_first_trimester                                 0.074512 .  
+pct_black                                                         0.156087    
+I(pct_black^2)                                                    0.432929    
+pct_hispanic                                                      0.000177 ***
+I(pct_hispanic^2)                                                 0.006112 ** 
+unemployment_rate_2022                                            0.912479    
+log(median_household_income_2022)                                 0.572244    
+I(pct_prenatal_care_first_trimester^2)                            0.134738    
+rural_urban_continuum_code_2023:pct_prenatal_care_first_trimester 0.000455 ***
+unemployment_rate_2022:log(median_household_income_2022)          0.974869    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 17.8 on 39 degrees of freedom
+  (16 observations deleted due to missingness)
+Multiple R-squared:  0.7918,    Adjusted R-squared:  0.733 
+F-statistic: 13.48 on 11 and 39 DF,  p-value: 4.191e-10</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>model7e.lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(rate_of_pregnant_women_with_oud_diagnosis <span class="sc">~</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>                   rural_urban_continuum_code_2023 <span class="sc">*</span> pct_prenatal_care_first_trimester <span class="sc">+</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>                   pct_black <span class="sc">+</span> pct_hispanic <span class="sc">+</span> <span class="fu">I</span>(pct_hispanic<span class="sc">^</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>                   unemployment_rate_2022 <span class="sc">+</span> <span class="fu">log</span>(median_household_income_2022) <span class="sc">+</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>                   fertility_rate <span class="sc">+</span> pct_fair_poor_health,</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">data =</span> appp_data)</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model7e.lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = rate_of_pregnant_women_with_oud_diagnosis ~ rural_urban_continuum_code_2023 * 
+    pct_prenatal_care_first_trimester + pct_black + pct_hispanic + 
+    I(pct_hispanic^2) + unemployment_rate_2022 + log(median_household_income_2022) + 
+    fertility_rate + pct_fair_poor_health, data = appp_data)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-33.097  -7.914   0.276  11.436  31.066 
+
+Coefficients:
+                                                                    Estimate
+(Intercept)                                                       -171.60521
+rural_urban_continuum_code_2023                                    -73.77550
+pct_prenatal_care_first_trimester                                   -3.30256
+pct_black                                                           -1.74127
+pct_hispanic                                                        -8.95980
+I(pct_hispanic^2)                                                    0.24669
+unemployment_rate_2022                                              19.93130
+log(median_household_income_2022)                                   43.68768
+fertility_rate                                                      -0.47370
+pct_fair_poor_health                                                -0.63354
+rural_urban_continuum_code_2023:pct_prenatal_care_first_trimester    1.01875
+                                                                  Std. Error
+(Intercept)                                                        298.25655
+rural_urban_continuum_code_2023                                     17.88505
+pct_prenatal_care_first_trimester                                    1.07608
+pct_black                                                            0.68498
+pct_hispanic                                                         1.75001
+I(pct_hispanic^2)                                                    0.07061
+unemployment_rate_2022                                               6.32157
+log(median_household_income_2022)                                   24.78928
+fertility_rate                                                       0.46121
+pct_fair_poor_health                                                 0.88084
+rural_urban_continuum_code_2023:pct_prenatal_care_first_trimester    0.24138
+                                                                  t value
+(Intercept)                                                        -0.575
+rural_urban_continuum_code_2023                                    -4.125
+pct_prenatal_care_first_trimester                                  -3.069
+pct_black                                                          -2.542
+pct_hispanic                                                       -5.120
+I(pct_hispanic^2)                                                   3.494
+unemployment_rate_2022                                              3.153
+log(median_household_income_2022)                                   1.762
+fertility_rate                                                     -1.027
+pct_fair_poor_health                                               -0.719
+rural_urban_continuum_code_2023:pct_prenatal_care_first_trimester   4.221
+                                                                  Pr(&gt;|t|)    
+(Intercept)                                                       0.568270    
+rural_urban_continuum_code_2023                                   0.000182 ***
+pct_prenatal_care_first_trimester                                 0.003846 ** 
+pct_black                                                         0.014996 *  
+pct_hispanic                                                      8.08e-06 ***
+I(pct_hispanic^2)                                                 0.001179 ** 
+unemployment_rate_2022                                            0.003062 ** 
+log(median_household_income_2022)                                 0.085649 .  
+fertility_rate                                                    0.310555    
+pct_fair_poor_health                                              0.476170    
+rural_urban_continuum_code_2023:pct_prenatal_care_first_trimester 0.000136 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 17.86 on 40 degrees of freedom
+  (16 observations deleted due to missingness)
+Multiple R-squared:  0.7849,    Adjusted R-squared:  0.7311 
+F-statistic: 14.59 on 10 and 40 DF,  p-value: 1.919e-10</code></pre>
+</div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
