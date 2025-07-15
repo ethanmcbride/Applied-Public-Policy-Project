@@ -256,7 +256,7 @@ vars <- c("poverty_rate", "unemployment_rate_2022", "median_household_income_202
                    "pct_fair_poor_health")
 
 
-histograms <- lapply(histogram_vars, function(var) {
+histograms <- lapply(vars, function(var) {
   create_histograms(appp_data, var)
 })
 
