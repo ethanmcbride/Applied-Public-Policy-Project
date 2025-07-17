@@ -9,6 +9,7 @@ format: html
 ```{r}
 library(tidyverse)
 library(broom)
+library(stargazer)
 
 appp_data <- read_csv("data/APPP_dataset.csv")
 
@@ -321,6 +322,8 @@ missing_data <- appp_data |>
   pivot_longer(everything(), names_to = "variable", values_to = "missing_count") |>
   filter(missing_count > 0)
 
+missing_data
+
 summary_stats <- appp_data |>
   filter(!is.na(rate_of_pregnant_women_with_oud_diagnosis)) |>
   summarize(
@@ -332,6 +335,8 @@ summary_stats <- appp_data |>
     IQR = round(IQR(rate_of_pregnant_women_with_oud_diagnosis, na.rm = TRUE), 2),
     Count = n()
   )
+
+summary_stats
 
 assorted_summary <- appp_data |>
   select(poverty_rate, unemployment_rate_2022, median_household_income_2022, 
@@ -351,6 +356,8 @@ assorted_summary <- appp_data |>
     .groups = "drop"
   )
 
+assorted_summary
+
 rural_urban <- appp_data |>
   mutate(rural_urban_cat = case_when(
     rural_urban_continuum_code_2023 <= 3 ~ "Urban",
@@ -368,6 +375,8 @@ rural_urban <- appp_data |>
     true_median_income = round(median(median_household_income_2022, na.rm = TRUE), 2),
     median_pct_prenatal_care = round(median(pct_prenatal_care_first_trimester, na.rm = TRUE), 2)
   )
+
+rural_urban
 
 ## Outliers ## 
 identify_outliers <- function(data, var_name) {
@@ -398,6 +407,8 @@ outliers_summary <- lapply(outliers_list, function(outliers) {
     return(data.frame(county_name = NA, value = NA))
   }
 })
+
+outliers_summary
 
 ```
 
@@ -636,3 +647,63 @@ model7e.lm <- lm(rate_of_pregnant_women_with_oud_diagnosis ~
                  data = appp_data)
 summary(model7e.lm)
 ```
+
+```{r}
+stargazer(model7e.lm,
+          type = "latex",
+          title = "OUD Rate Predictors in Pennsylvania Counties",
+          dep.var.labels = "OUD Rate per 1000",
+          covariate.labels = c("Rural-Urban Code",
+                              "Prenatal Care Percent",
+                              "Black Population Percent",
+                              "Hispanic Population Percent",
+                              "Hispanic Percent Squared",
+                              "Unemployment Rate",
+                              "Log Median Income",
+                              "Fertility Rate",
+                              "Fair Poor Health Percent",
+                              "Rural x Prenatal Care"),
+          label = "tab:results",
+          table.placement = "h",
+          header = FALSE,
+          digits = 2,
+          no.space = TRUE,
+          omit.stat = c("ser", "f"),  # Omit some statistics to simplify
+          notes = "Standard errors in parentheses",
+          notes.append = FALSE)
+```
+
+```{r}
+residual_data <- data.frame(
+  fitted_values = fitted(model7e.lm),
+  residuals = resid(model7e.lm)
+)
+ggplot(data = residual_data, aes(x = fitted_values, y = residuals)) +
+  geom_point(alpha = 0.7) +
+  geom_hline(yintercept = 0, color = "red", linetype = "dashed", linewidth = 1) +
+  labs(
+    title = "Residuals v. Fitted Values",
+    subtitle = "Multivariate regression model",
+    x = "Fitted Values",
+    y = "Residuals"
+  ) +
+  theme_minimal()
+
+model7e_data <- appp_data |>
+  select(rate_of_pregnant_women_with_oud_diagnosis,rural_urban_continuum_code_2023, pct_prenatal_care_first_trimester,
+         pct_black, pct_hispanic, unemployment_rate_2022,
+         median_household_income_2022, fertility_rate, pct_fair_poor_health)
+
+cor(model7e_data) # Check correlation matrix for multicollinearity
+library(corrplot)
+cor_matrix <- cor(model7e_data, use = "pairwise.complete.obs")
+corrplot(cor_matrix, 
+        method = "circle", 
+        type = "upper", 
+        title = "Correlation Matrix of Variables",
+        mar = c(1, 1, 2, 1), 
+        tl.cex = 0.7, 
+        tl.col = "black", 
+        tl.srt = 45)
+```
+
